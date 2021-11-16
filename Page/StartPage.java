@@ -49,16 +49,15 @@ public class StartPage extends JFrame {
 		
 		btn_login = new JButton("로그인");
 		btn_login.setBounds(813, 448, 97, 23);
-		btn_login.setBackground(new Color(255,128,0));
+		// btn_login.setBackground(new Color(255,128,0));
 		panel.add(btn_login);
 		
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new JoinPage(); // JoinPage 실행
+				new LoginPage(); // JoinPage 실행
 				setVisible(false);  // 창 안보이게 하기 
 			}
-		});
-		
+		});	
 		
 		btn_join = new JButton("회원가입");
 		btn_join.setBounds(813, 481, 97, 23);
@@ -66,7 +65,7 @@ public class StartPage extends JFrame {
 		
 		btn_join.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new LoginPage(); // JoinPage 실행
+				new JoinPage(); // JoinPage 실행
 				setVisible(false);  // 창 안보이게 하기 
 			}
 		});
