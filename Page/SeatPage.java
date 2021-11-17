@@ -145,7 +145,7 @@ public class SeatPage extends JFrame {
 	      JButton btn_Chk = new JButton("선택 완료");
 			btn_Chk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new Selectioninfo();
+					new SelectionInfo();
 					 setVisible(false);  // 창 안보이게 하기 
 				}
 			});
