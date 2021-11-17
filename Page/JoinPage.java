@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class JoinPage extends JFrame {
 	
@@ -24,15 +25,15 @@ public class JoinPage extends JFrame {
 	private JButton btn_Join;
 	
 	JoinPage(){
-		super("Ω∫≈Õµƒ´∆‰ øπæ‡ «¡∑Œ±◊∑• [STUDY US]");
+		super("Ïä§ÌÑ∞ÎîîÏπ¥Ìéò ÏòàÏïΩ ÌîÑÎ°úÍ∑∏Îû® [STUDY US]");
 		init();
 	}
 	
 	public final void init() {
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-		setResizable(false); //ªÁ¿Ã¡Ó ∫Ø∞Ê ∫“∞°¥…
-		setVisible(true); //∫∏¿Ã∞‘ «“¡ˆ ø©∫Œ
+		setResizable(false); //ÏÇ¨Ïù¥Ï¶à Î≥ÄÍ≤Ω Î∂àÍ∞ÄÎä•
+		setVisible(true); //Î≥¥Ïù¥Í≤å Ìï†ÏßÄ Ïó¨Î∂Ä
 		setBounds(100, 100, 1300, 800);
 		
 		contentPane = new JPanel();
@@ -46,42 +47,62 @@ public class JoinPage extends JFrame {
 		panel.setLayout(null);
 		
 		field_id = new JTextField();
+		field_id.setHorizontalAlignment(SwingConstants.CENTER);
 		field_id.setBackground(SystemColor.inactiveCaptionBorder);
-		field_id.setBounds(242, 376, 357, 47);
+		field_id.setBounds(528, 347, 357, 47);
 		panel.add(field_id);
 		field_id.setColumns(10);
 		
 		field_pass = new JTextField();
+		field_pass.setHorizontalAlignment(SwingConstants.CENTER);
 		field_pass.setBackground(SystemColor.inactiveCaptionBorder);
 		field_pass.setColumns(10);
-		field_pass.setBounds(242, 446, 357, 47);
+		field_pass.setBounds(528, 417, 357, 47);
 		panel.add(field_pass);
 		
 		field_name = new JTextField();
 		field_name.setBackground(SystemColor.inactiveCaptionBorder);
-		field_name.setHorizontalAlignment(SwingConstants.LEFT);
+		field_name.setHorizontalAlignment(SwingConstants.CENTER);
 		field_name.setColumns(10);
-		field_name.setBounds(242, 512, 357, 47);
+		field_name.setBounds(528, 483, 357, 47);
 		panel.add(field_name);
 		
 		JLabel textID = new JLabel("ID");
-		textID.setFont(new Font("±º∏≤", Font.PLAIN, 30));
-		textID.setBounds(189, 376, 30, 47);
+		textID.setHorizontalAlignment(SwingConstants.CENTER);
+		textID.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 30));
+		textID.setBounds(475, 347, 30, 47);
 		panel.add(textID);
 		
 		JLabel textPASS = new JLabel("PASSWORD");
-		textPASS.setFont(new Font("±º∏≤", Font.PLAIN, 30));
-		textPASS.setBounds(56, 446, 195, 47);
+		textPASS.setHorizontalAlignment(SwingConstants.CENTER);
+		textPASS.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 30));
+		textPASS.setBounds(342, 417, 195, 47);
 		panel.add(textPASS);
 		
 		textNAME = new JLabel("NAME");
-		textNAME.setFont(new Font("±º∏≤", Font.PLAIN, 30));
-		textNAME.setBounds(134, 514, 105, 47);
+		textNAME.setHorizontalAlignment(SwingConstants.CENTER);
+		textNAME.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 30));
+		textNAME.setBounds(420, 485, 105, 47);
 		panel.add(textNAME);
 		
-		btn_Join = new JButton("∞°¿‘«œ±‚");
-		btn_Join.setBounds(502, 596, 97, 23);
+		btn_Join = new JButton("Í∞ÄÏûÖÌïòÍ∏∞");
+		btn_Join.setBackground(Color.BLACK);
+		btn_Join.setForeground(Color.WHITE);
+		btn_Join.setBounds(788, 567, 97, 28);
 		panel.add(btn_Join);
+		
+		JPanel subtitle_panel = new JPanel();
+		subtitle_panel.setLayout(null);
+		subtitle_panel.setForeground(new Color(211, 211, 211));
+		subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
+		subtitle_panel.setBounds(0, 0, 1286, 52);
+		panel.add(subtitle_panel);
+		
+		JLabel lblNewLabel = new JLabel("STUDY US");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+		lblNewLabel.setBounds(18, 5, 440, 42);
+		subtitle_panel.add(lblNewLabel);
 		btn_Join.addActionListener(new Listener(this));
 		
 	}
@@ -111,5 +132,4 @@ public class JoinPage extends JFrame {
 	public static void main(String[] args) {
 		new JoinPage();
 	}
-
 }
