@@ -87,6 +87,7 @@ public class JoinPage extends JFrame {
 		panel.add(textNAME);
 		
 		btn_Join = new JButton("가입하기");
+		btn_Join.setBackground(Color.BLACK);
 		btn_Join.setForeground(Color.WHITE);
 		btn_Join.setBounds(788, 567, 97, 28);
 		panel.add(btn_Join);
