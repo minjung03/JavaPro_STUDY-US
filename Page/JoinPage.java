@@ -6,6 +6,10 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -113,19 +117,32 @@ public class JoinPage extends JFrame {
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println(e.getActionCommand());
+
+			String join_name = field_name.getText();
+			String join_id = field_id.getText();
+			String join_pass = field_pass.getText();
 			
-			String id = field_id.getText();
-			System.out.println(id);
-			
-			String pass = field_pass.getText();
-			System.out.println(pass);
-			
-			String name = field_name.getText();
-			System.out.println(name);
-			
-			JOptionPane.showMessageDialog(frame, id+" "+pass+" "+name);
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				String url = "jdbc:mysql://localhost:3306/STUDY_US";
+				String id = "root";
+				String pw = "111111";
+				Connection conn = DriverManager.getConnection(url, id, pw);
+
+				String sql = "insert into user(name, id, pass, regular_chk) values('"+join_name+"', '"+join_id+"', '"+join_pass+"', 'false');";			
+				Statement stmt = conn.createStatement(); 
+				stmt.executeUpdate(sql);
+				
+				// System.out.println("성공");
+				
+				JOptionPane.showMessageDialog(frame, "가입되었습니다"); 
+		
+				 new LoginPage(); // JoinPage 실행
+		         setVisible(false);  // 창 안보이게 하기 
+				
+			}catch(Exception ee) {
+				System.out.println("실패");
+			}
 		}
 	}
 	

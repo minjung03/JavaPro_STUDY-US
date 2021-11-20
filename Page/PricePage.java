@@ -36,14 +36,11 @@ public class PricePage extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public PricePage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
-	      setResizable(false); //사이즈 변경 불가능
-	      setVisible(true); //보이게 할지 여부
-	      setBounds(100, 100, 1300, 800);
+	    setResizable(false); //사이즈 변경 불가능
+	    setVisible(true); //보이게 할지 여부
+	    setBounds(100, 100, 1300, 800);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
