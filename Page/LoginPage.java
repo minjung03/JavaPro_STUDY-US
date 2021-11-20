@@ -113,6 +113,7 @@ public class LoginPage  extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			boolean togle = false;
 			String login_id = field_id.getText();
 			String login_pass = field_pass.getText();
 			
@@ -139,10 +140,10 @@ public class LoginPage  extends JFrame {
 						JOptionPane.showMessageDialog(frame, user_name+"님, 안녕하세요!"); 
 						new SelectTimeTablePage(); // SelectTimeTablePage 실행
 			            setVisible(false);  // 창 안보이게 하기 
-			            break;
+			            togle = true;
 					}
 				}
-				JOptionPane.showMessageDialog(frame, "아이디 혹은 비밀번호가 맞지 않습니다"); 
+				if(!togle) JOptionPane.showMessageDialog(frame, "아이디 혹은 비밀번호가 맞지 않습니다"); 
 				
 				/*
 				// [Table에 저장된 데이터 출력 테스트] 
