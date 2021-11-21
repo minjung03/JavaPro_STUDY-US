@@ -226,7 +226,7 @@ public class SelectTimeTablePage extends JFrame {
 		pass_chckbx150.setBounds(418, 387, 109, 23);
 		timetable_panel.add(pass_chckbx150);
 		
-		/*JCheckBox period_chckbx2w = new JCheckBox("2\uC8FC");
+		JCheckBox period_chckbx2w = new JCheckBox("2\uC8FC");
 		period_chckbx2w.setFont(new Font("±¼¸²", Font.BOLD, 20));
 		period_chckbx2w.setBackground(Color.WHITE);
 		period_chckbx2w.setBounds(667, 387, 86, 23);
@@ -236,7 +236,7 @@ public class SelectTimeTablePage extends JFrame {
 		chckbxNewCheckBox_1_1_1_2.setFont(new Font("±¼¸²", Font.BOLD, 20));
 		chckbxNewCheckBox_1_1_1_2.setBackground(Color.WHITE);
 		chckbxNewCheckBox_1_1_1_2.setBounds(670, 504, 86, 23);
-		timetable_panel.add(chckbxNewCheckBox_1_1_1_2);*/
+		timetable_panel.add(chckbxNewCheckBox_1_1_1_2);
 		
 		btn_Price = new JButton("\uAC00\uACA9\uD45C \uD655\uC778");
 		

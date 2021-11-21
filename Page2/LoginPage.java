@@ -1,7 +1,5 @@
 package Page2;
 
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -86,6 +84,13 @@ public class LoginPage  extends JFrame {
          btn_Login.setBorder(new LineBorder(new Color(0, 0, 0), 0, true)); 
          panel.add(btn_Login);
          
+         btn_Login.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               new SelectTimeTablePage(); // SelectTimeTablePage 실행
+               setVisible(false);  // 창 안보이게 하기 
+            }
+         });
+         
          subtitle_panel = new JPanel();
          subtitle_panel.setLayout(null);
          subtitle_panel.setForeground(new Color(211, 211, 211));
@@ -98,29 +103,23 @@ public class LoginPage  extends JFrame {
          title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
          title.setBounds(22, 6, 440, 42);
          subtitle_panel.add(title);
-         btn_Login.addActionListener(new Listener(this));
+         // btn_Login.addActionListener(new Listener(this));
       
    }
-   class Listener implements ActionListener{
-      JFrame frame;
-      public Listener(JFrame f) {
-         frame = f;
-      }
-      @Override
-      public void actionPerformed(ActionEvent e) {
-         // TODO Auto-generated method stub
-         System.out.println(e.getActionCommand());
-         
-         String id = field_id.getText();
-         System.out.println(id);
-         
-         String pass = field_pass.getText();
-         System.out.println(pass);
-   
-         JOptionPane.showMessageDialog(frame, id+" "+pass);
-      }
-   }
-   
+
+	/* 아이디/비밀번호 입력 확인 테스트
+	 * class Listener implements ActionListener{ JFrame frame; public
+	 * Listener(JFrame f) { frame = f; }
+	 * 
+	 * @Override public void actionPerformed(ActionEvent e) { // TODO Auto-generated
+	 * method stub System.out.println(e.getActionCommand());
+	 * 
+	 * String id = field_id.getText(); System.out.println(id);
+	 * 
+	 * String pass = field_pass.getText(); System.out.println(pass);
+	 * 
+	 * JOptionPane.showMessageDialog(frame, id+" "+pass); } }
+	 */
    public static void main(String[] args) {
       new LoginPage();
    }
