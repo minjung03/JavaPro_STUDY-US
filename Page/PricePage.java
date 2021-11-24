@@ -450,26 +450,16 @@ public class PricePage extends JFrame {
 		mainsubtitle.setBounds(31, 108, 361, 47);
 		room_panel.add(mainsubtitle);
 		
-		/*패널에 그림을 올려주는 클래스
-		class ImagePanel extends JPanel {
-		  private Image img;
-		  
-		  public ImagePanel(Image img) {
-		      this.img = img;
-		      setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-		      setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-		      setLayout(null);
-		  }
-		  
-		  public void paintComponent(Graphics g) {
-		      g.drawImage(img, 3, 0, null);
-		  }
-			} */
 		
-		
+		// 메인 이미지
+		 
+        ImagePanel pnMiddle = new ImagePanel(new ImageIcon("./image/mainroom.png").getImage()); //이미지 넣기
+        pnMiddle.setBounds(411, 42, 310, 180);
+		room_panel.add(pnMiddle);
+        pnMiddle.setLayout(null);
+        
 		JPanel main_img_panel = new JPanel();
 		main_img_panel.setBounds(411, 42, 310, 180);
-		
 		room_panel.add(main_img_panel);
 		main_img_panel.setLayout(null);
 		
@@ -477,6 +467,7 @@ public class PricePage extends JFrame {
 		personal_img_panel.setLayout(null);
 		personal_img_panel.setBounds(31, 235, 310, 180);
 		room_panel.add(personal_img_panel);
+		
 		
 		JLabel personaltitle = new JLabel("\uAC1C\uC778\uC2E4");
 		personaltitle.setFont(new Font("굴림", Font.BOLD, 25));
@@ -503,11 +494,20 @@ public class PricePage extends JFrame {
 		meeting_img_panel.setBounds(411, 434, 310, 180);
 		room_panel.add(meeting_img_panel);
 		
-	/*	ImagePanel mainroom = new ImagePanel(new ImageIcon("./img/mainroom.png").getImage()); //이미지 넣기
-		mainroom.setBounds(0, 90, 501, 379);
-        getContentPane().add(mainroom);
-        mainroom.setLayout(null); */
        
-
 	}
+	class ImagePanel extends JPanel {
+		  private Image img;
+		  
+		  public ImagePanel(Image img) {
+		      this.img = img;
+		      setSize(new Dimension(10, 10));
+		      setPreferredSize(new Dimension(10, 10));
+		      setLayout(null);
+		  }
+		  
+		  public void paintComponent(Graphics g) {
+		      g.drawImage(img, 3, 0, null);
+		  }
+		}
 }
