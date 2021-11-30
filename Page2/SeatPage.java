@@ -32,12 +32,10 @@ public class SeatPage extends JFrame {
 	private JLabel textID, textPASS, title;
 	private JTable table;
 	
-	SeatPage(){
-		
+	SeatPage(){		
 		super("스터디카페 예약 프로그램 [STUDY US]");
 		init();
 	}
-	
 	
 	public final void init() {
 	
@@ -153,8 +151,7 @@ public class SeatPage extends JFrame {
 			btn_Chk.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 			btn_Chk.setBackground(Color.BLACK);
 			btn_Chk.setBounds(941, 531, 97, 28);
-			seattable_panel.add(btn_Chk);
-	      
+			seattable_panel.add(btn_Chk);      
 		
 	}
 	

@@ -9,6 +9,11 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,12 +36,10 @@ public class LoginPage  extends JFrame {
    private JButton btn_Login;
    
    LoginPage(){
-      
       super("스터디카페 예약 프로그램 [STUDY US]");
       init();
    }
-   
-   
+  
    public final void init() {
    
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
@@ -82,14 +85,8 @@ public class LoginPage  extends JFrame {
          btn_Login.setBackground(Color.black);
          btn_Login.setBounds(794, 493, 97, 28);
          btn_Login.setBorder(new LineBorder(new Color(0, 0, 0), 0, true)); 
-         panel.add(btn_Login);
-         
-         btn_Login.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               new SelectTimeTablePage(); // SelectTimeTablePage 실행
-               setVisible(false);  // 창 안보이게 하기 
-            }
-         });
+         panel.add(btn_Login);         
+         btn_Login.addActionListener(new Listener(this));
          
          subtitle_panel = new JPanel();
          subtitle_panel.setLayout(null);
@@ -104,22 +101,86 @@ public class LoginPage  extends JFrame {
          title.setBounds(22, 6, 440, 42);
          subtitle_panel.add(title);
          // btn_Login.addActionListener(new Listener(this));
-      
+         
    }
+   
+   class Listener implements ActionListener{
+		JFrame frame;
+		public Listener(JFrame f) {
+			frame = f;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
 
-	/* 아이디/비밀번호 입력 확인 테스트
-	 * class Listener implements ActionListener{ JFrame frame; public
-	 * Listener(JFrame f) { frame = f; }
-	 * 
-	 * @Override public void actionPerformed(ActionEvent e) { // TODO Auto-generated
-	 * method stub System.out.println(e.getActionCommand());
-	 * 
-	 * String id = field_id.getText(); System.out.println(id);
-	 * 
-	 * String pass = field_pass.getText(); System.out.println(pass);
-	 * 
-	 * JOptionPane.showMessageDialog(frame, id+" "+pass); } }
-	 */
+			boolean togle = false;
+			String login_id = field_id.getText();
+			String login_pass = field_pass.getText();
+			
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				String url = "jdbc:mysql://localhost:3306/STUDY_US";
+				String id = "root";
+				String pw = "111111";
+				Connection conn = DriverManager.getConnection(url, id, pw);
+
+				String sql = "SELECT name, id, pass FROM user";
+
+				Statement stmt = conn.createStatement(); 
+				ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
+				
+				//결과를 담을 ArrayList생성 
+				
+				while(rs.next()) {
+					String user_name = rs.getString("name");
+					String user_id = rs.getString("id");
+					String user_pw = rs.getString("pass");
+					
+					if(user_id.equals(login_id) && user_pw.equals(login_pass)) {				
+						JOptionPane.showMessageDialog(frame, user_name+"님, 안녕하세요!"); 
+						new SelectTimeTablePage(); // SelectTimeTablePage 실행
+			            setVisible(false);  // 창 안보이게 하기 
+			            togle = true;
+					}
+				}
+				if(!togle) JOptionPane.showMessageDialog(frame, "아이디 혹은 비밀번호가 맞지 않습니다"); 
+				
+				/*
+				// [Table에 저장된 데이터 출력 테스트] 
+				  
+				String sql = "SELECT * FROM user";
+				Statement stmt = conn.createStatement(); 
+				ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
+				
+				//결과를 담을 ArrayList생성 
+				ArrayList<User> userlist = new ArrayList<User>(); 
+				
+				//ResultSet에 담긴 결과를 ArrayList에 담기
+				while(rs.next()) {
+					User user = new User();
+					user.setName(rs.getString("name"));
+					user.setId(rs.getString("id"));
+					user.setPass(rs.getString("pass"));
+					user.setRegular_chk(rs.getString("regular_chk"));
+					userlist.add(user);
+				}
+				
+				//결과물 출력
+				for(int i=0; i<userlist.size(); i++) {
+					System.out.println("이름:"+userlist.get(i).getName());
+					System.out.println("아이디:"+userlist.get(i).getId());
+					System.out.println("비밀번호:"+userlist.get(i).getPass());
+					System.out.println("정기체크:"+userlist.get(i).getRegular_chk());
+				}
+				*/
+				
+		
+				 
+				
+			}catch(Exception ee) {
+				System.out.println("실패");
+			}
+		}
+   }
    public static void main(String[] args) {
       new LoginPage();
    }
