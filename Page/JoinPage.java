@@ -143,8 +143,9 @@ public class JoinPage extends JFrame {
 					}
 				}
 				String sql2 =  "insert into user(name, id, pass, regular_chk) values('"+join_name+"', '"
-						        +join_id+"', '"+join_pass+"', 'false');"; Statement stmt2 =
-	            conn.createStatement(); stmt.executeUpdate(sql2);
+						        +join_id+"', '"+join_pass+"', 'false');"; 
+				Statement stmt2 = conn.createStatement();
+				stmt.executeUpdate(sql2);
 						  
 				// System.out.println("성공");
 				  

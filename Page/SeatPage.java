@@ -136,8 +136,7 @@ public class SeatPage extends JFrame {
 	      label_privateRoom.setBounds(895, 251, 57, 15);
 	      seattable_panel.add(label_privateRoom);
 	      
-	      PrivateSetting();
-	      
+	      PrivateSetting();	      
 	      
 	      JButton btn_Chk = new JButton("¼±ÅÃ ¿Ï·á");
 			btn_Chk.addActionListener(new ActionListener() {
@@ -152,134 +151,107 @@ public class SeatPage extends JFrame {
 			btn_Chk.setBounds(941, 531, 97, 28);
 			seattable_panel.add(btn_Chk);      
 		
-	}
-	
+	}	
 	public void PrivateSetting() {
 		
-		JLabel priroomNum_1 = new JLabel("1");
-		priroomNum_1.setHorizontalAlignment(SwingConstants.LEFT);
-		priroomNum_1.setForeground(Color.WHITE);
-		priroomNum_1.setFont(new Font("±¼¸²", Font.BOLD, 15));
-		priroomNum_1.setBounds(966, 250, 19, 15);
-	    seattable_panel.add(priroomNum_1);
-	    
-	      JButton btn_PR1_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_PR1_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR1_chk.setForeground(Color.WHITE);
-	      btn_PR1_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
-	      btn_PR1_chk.setBounds(960, 242, 78, 84);
-	      seattable_panel.add(btn_PR1_chk);
-	           
-	      
-	      
-	      JLabel priroomNum_2 = new JLabel("2");
-	      priroomNum_2.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_2.setForeground(Color.WHITE);
-	      priroomNum_2.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      priroomNum_2.setBounds(966, 344, 19, 15);
-	      seattable_panel.add(priroomNum_2);
-	      
-	      JButton btn_PR2_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_PR2_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR2_chk.setForeground(Color.WHITE);
-	      btn_PR2_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
-	      btn_PR2_chk.setBounds(960, 336, 78, 84);
-	      seattable_panel.add(btn_PR2_chk);
-	      
-	      
-	      
-	      JLabel priroomNum_3 = new JLabel("3");
-	      priroomNum_3.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_3.setForeground(Color.WHITE);
-	      priroomNum_3.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      priroomNum_3.setBounds(966, 438, 19, 15);
-	      seattable_panel.add(priroomNum_3);
-	      
-	      JButton btn_PR3_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_PR3_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR3_chk.setForeground(Color.WHITE);
-	      btn_PR3_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
-	      btn_PR3_chk.setBounds(960, 430, 78, 84);
-	      seattable_panel.add(btn_PR3_chk);
-	      
-	      
-	      JLabel priroomNum_4 = new JLabel("4");
-	      priroomNum_4.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_4.setForeground(Color.WHITE);
-	      priroomNum_4.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      priroomNum_4.setBounds(876, 438, 19, 15);
-	      seattable_panel.add(priroomNum_4);
-	      
-	      JButton btn_PR4_chk = new JButton("»ç¿ë°¡´É");
-	      btn_PR4_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR4_chk.setForeground(Color.WHITE);
-	      btn_PR4_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
-	      btn_PR4_chk.setBounds(870, 430, 78, 84);
-	      seattable_panel.add(btn_PR4_chk);
-	      
-	      
-	      JLabel priroomNum_5 = new JLabel("5");
-	      priroomNum_5.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_5.setForeground(Color.WHITE);
-	      priroomNum_5.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      priroomNum_5.setBounds(783, 438, 19, 15);
-	      seattable_panel.add(priroomNum_5);
-	      
-	      JButton btn_PR5_chk = new JButton("»ç¿ë°¡´É");
-	      btn_PR5_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR5_chk.setForeground(Color.WHITE);
-	      btn_PR5_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
-	      btn_PR5_chk.setBounds(777, 430, 78, 84);
-	      seattable_panel.add(btn_PR5_chk);
-	      
-	      
-	      JLabel priroomNum_6 = new JLabel("6");
-	      priroomNum_6.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_6.setForeground(Color.WHITE);
-	      priroomNum_6.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      priroomNum_6.setBounds(692, 439, 19, 15);
-	      seattable_panel.add(priroomNum_6);
-	      
-	      JButton btn_PR6_chk = new JButton("»ç¿ë°¡´É");
-	      btn_PR6_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR6_chk.setForeground(Color.WHITE);
-	      btn_PR6_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
-	      btn_PR6_chk.setBounds(686, 431, 78, 84);
-	      seattable_panel.add(btn_PR6_chk);
-	     	        
+		
+		String num = "1";
+		int width_Default = 966;
+		int height_Default = 250;
+		
+		JLabel[] privateNum = new JLabel[6];
+		for(int i=0; i<6; i++) {
+			privateNum[i] = new JLabel(num);
+			privateNum[i].setHorizontalAlignment(SwingConstants.LEFT);
+			privateNum[i].setForeground(Color.WHITE);
+			privateNum[i].setFont(new Font("±¼¸²", Font.BOLD, 15));
+		    seattable_panel.add(privateNum[i]);
+		    
+			if(i<3) {
+				privateNum[i].setBounds(width_Default, height_Default, 19, 15);
+				height_Default+=94;
+			}
+			else if(i==3) {
+				privateNum[i].setBounds(876, 438, 19, 15);
+			}
+			else if(i==4) {
+				privateNum[i].setBounds(783, 438, 19, 15);
+			}
+			else if(i==5) {
+				privateNum[i].setBounds(692, 439, 19, 15);
+			}
+			
+			int num_set = Integer.valueOf(num);
+			num_set++;
+			num = String.valueOf(num_set);
+		}
+		
+		
+		height_Default = 242;
+		JButton[] btn_private = new JButton[6];
+		for(int i=0; i<6; i++) {
+			btn_private[i] = new JButton("»ç¿ë°¡´É");
+			btn_private[i].setBackground(SystemColor.controlHighlight);
+			btn_private[i].setForeground(Color.WHITE);
+			btn_private[i].setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 11));
+			
+	
+			if(i<3) {
+				btn_private[i].setBounds(960, height_Default, 78, 84);
+				height_Default+=94;
+			}
+			else if(i==3) {
+				btn_private[i].setBounds(870, 430, 78, 84);
+			}
+			else if(i==4) {
+				btn_private[i].setBounds(777, 430, 78, 84);
+			}
+			else if(i==5) {
+				btn_private[i].setBounds(686, 431, 78, 84);
+     	        
+			}
+			
+			
+	        seattable_panel.add(btn_private[i]);
+		}
+	
 	}
 	
 	public void MeetingSetting() {
+	
 		
-		JLabel meetingroomNum_1 = new JLabel("1");
-	      meetingroomNum_1.setHorizontalAlignment(SwingConstants.LEFT);
-	      meetingroomNum_1.setForeground(Color.WHITE);
-	      meetingroomNum_1.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      meetingroomNum_1.setBounds(733, 100, 25, 24);
-	      seattable_panel.add(meetingroomNum_1);
+		  String num = "1";
+		  int width_Defalut = 733;
+		  
+	      JLabel[] MettingSeatNum = new JLabel[2];
+			for(int i=0; i<2; i++) {
+				MettingSeatNum[i] = new JLabel(num);
+				MettingSeatNum[i].setFont(new Font("±¼¸²", Font.BOLD, 15));
+				MettingSeatNum[i].setForeground(Color.WHITE);
+				MettingSeatNum[i].setHorizontalAlignment(SwingConstants.LEFT);
+				MettingSeatNum[i].setBounds(width_Defalut, 100, 25, 24);
+				width_Defalut -= 164;
+			      
+				int num_set = Integer.valueOf(num);
+				num_set++;
+				num = String.valueOf(num_set);
+				
+		        seattable_panel.add(MettingSeatNum[i]);
+			}
 	      
-	      JLabel meetingroomNum_2 = new JLabel("2");
-	      meetingroomNum_2.setHorizontalAlignment(SwingConstants.LEFT);
-	      meetingroomNum_2.setForeground(Color.WHITE);
-	      meetingroomNum_2.setFont(new Font("±¼¸²", Font.BOLD, 15));
-	      meetingroomNum_2.setBounds(897, 100, 25, 24);
-	      seattable_panel.add(meetingroomNum_2);
 	      
-
-	      JButton btn_MR1_chk = new JButton("»ç¿ë°¡´É");
-	      btn_MR1_chk.setBackground(SystemColor.controlHighlight);
-	      btn_MR1_chk.setForeground(Color.WHITE);
-	      btn_MR1_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 12));
-	      btn_MR1_chk.setBounds(720, 92, 154, 131);
-	      seattable_panel.add(btn_MR1_chk);
-	      
-	      JButton btn_MR2_chk = new JButton("»ç¿ë°¡´É");
-	      btn_MR2_chk.setBackground(SystemColor.controlHighlight);
-	      btn_MR2_chk.setForeground(Color.WHITE);
-	      btn_MR2_chk.setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 12));
-	      btn_MR2_chk.setBounds(884, 92, 154, 131);
-	      seattable_panel.add(btn_MR2_chk);
-	      
+	      JButton[] btn_Metting = new JButton[2];
+	      width_Defalut = 720;
+	      for(int i=0; i<2; i++) {
+	    	  btn_Metting[i] = new JButton("»ç¿ë°¡´É");
+	    	  btn_Metting[i].setBackground(SystemColor.controlHighlight);
+	    	  btn_Metting[i].setForeground(Color.WHITE);
+	    	  btn_Metting[i].setBounds(width_Defalut, 92, 154, 131);
+	    	  btn_Metting[i].setFont(new Font("³ª´®°íµñ ExtraBold", Font.BOLD, 12));
+		      seattable_panel.add(btn_Metting[i]);
+	    	  width_Defalut += 164;
+	      }
+	 
 	      
 	}
 	
@@ -352,7 +324,6 @@ public class SeatPage extends JFrame {
 		for(int i=0; i<18; i++) {	
 			seattable_panel.add(btn_seat[i]);
 		}
-		   	 
 		
 	}
 	public void actionPerformed(ActionEvent e) {

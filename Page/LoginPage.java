@@ -51,6 +51,7 @@ public class LoginPage  extends JFrame {
       contentPane = new JPanel();
       contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
       contentPane.setLayout(new BorderLayout(0, 0));
+
       setContentPane(contentPane);
       
       panel = new JPanel();
@@ -64,8 +65,8 @@ public class LoginPage  extends JFrame {
        panel.add(field_id);
        field_id.setColumns(10);
       
-      field_pass = new JTextField();
-      field_pass = new JTextField();
+       field_pass = new JTextField();
+       field_pass = new JTextField();
        field_pass.setBackground(SystemColor.inactiveCaptionBorder);
        field_pass.setColumns(10);
        field_pass.setBounds(534, 401, 357, 47);
@@ -92,7 +93,7 @@ public class LoginPage  extends JFrame {
          subtitle_panel = new JPanel();
          subtitle_panel.setLayout(null);
          subtitle_panel.setForeground(new Color(211, 211, 211));
-         subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
+         subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
          subtitle_panel.setBounds(0, 0, 1273, 52);
          panel.add(subtitle_panel);
          
