@@ -2,7 +2,10 @@ package Page2;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
 
 public class JoinPage extends JFrame {
 	
@@ -31,6 +36,20 @@ public class JoinPage extends JFrame {
 	JoinPage(){
 		super("스터디카페 예약 프로그램 [STUDY US]");
 		init();
+	}
+	
+	class ImagePanel extends JPanel{	//이미지 패널 클래스
+		private Image img;
+		
+		public ImagePanel(Image img) {
+			this.img = img;
+			setSize(new Dimension(img.getWidth(null),img.getHeight(null)));
+			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null)));
+			setLayout(null);
+		}
+		public void paintComponent(Graphics g) {
+			g.drawImage(img, 0 , 0,null);
+		}
 	}
 	
 	public final void init() {
@@ -98,16 +117,25 @@ public class JoinPage extends JFrame {
 		JPanel subtitle_panel = new JPanel();
 		subtitle_panel.setLayout(null);
 		subtitle_panel.setForeground(new Color(211, 211, 211));
-		subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
+		subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
 		subtitle_panel.setBounds(0, 0, 1286, 52);
 		panel.add(subtitle_panel);
 		
 		JLabel lblNewLabel = new JLabel("STUDY US");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-		lblNewLabel.setBounds(18, 5, 440, 42);
+		lblNewLabel.setBounds(65, 5, 440, 42);	//18이였음 **이미지 넣어서 변경**
 		subtitle_panel.add(lblNewLabel);
+		
+		
+		
+		ImagePanel panel = new ImagePanel(new ImageIcon("./img/flower.png").getImage());
+		subtitle_panel.add(panel);
+	
+		
 		btn_Join.addActionListener(new Listener(this));
+		
+		
 		
 	}
 	class Listener implements ActionListener{
