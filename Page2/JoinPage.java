@@ -2,19 +2,17 @@ package Page2;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
 
 public class JoinPage extends JFrame {
 	
@@ -36,20 +33,6 @@ public class JoinPage extends JFrame {
 	JoinPage(){
 		super("스터디카페 예약 프로그램 [STUDY US]");
 		init();
-	}
-	
-	class ImagePanel extends JPanel{	//이미지 패널 클래스
-		private Image img;
-		
-		public ImagePanel(Image img) {
-			this.img = img;
-			setSize(new Dimension(img.getWidth(null),img.getHeight(null)));
-			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null)));
-			setLayout(null);
-		}
-		public void paintComponent(Graphics g) {
-			g.drawImage(img, 0 , 0,null);
-		}
 	}
 	
 	public final void init() {
@@ -117,25 +100,16 @@ public class JoinPage extends JFrame {
 		JPanel subtitle_panel = new JPanel();
 		subtitle_panel.setLayout(null);
 		subtitle_panel.setForeground(new Color(211, 211, 211));
-		subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+		subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
 		subtitle_panel.setBounds(0, 0, 1286, 52);
 		panel.add(subtitle_panel);
 		
 		JLabel lblNewLabel = new JLabel("STUDY US");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-		lblNewLabel.setBounds(65, 5, 440, 42);	//18이였음 **이미지 넣어서 변경**
+		lblNewLabel.setBounds(18, 5, 440, 42);
 		subtitle_panel.add(lblNewLabel);
-		
-		
-		
-		ImagePanel panel = new ImagePanel(new ImageIcon("./img/flower.png").getImage());
-		subtitle_panel.add(panel);
-	
-		
 		btn_Join.addActionListener(new Listener(this));
-		
-		
 		
 	}
 	class Listener implements ActionListener{
@@ -156,18 +130,30 @@ public class JoinPage extends JFrame {
 				String id = "root";
 				String pw = "111111";
 				Connection conn = DriverManager.getConnection(url, id, pw);
-
-				String sql = "insert into user(name, id, pass, regular_chk) values('"+join_name+"', '"+join_id+"', '"+join_pass+"', 'false');";			
+	
+				String sql = "SELECT * FROM user";
+				
 				Statement stmt = conn.createStatement(); 
-				stmt.executeUpdate(sql);
+				ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
 				
+				//ResultSet에 담긴 결과를 ArrayList에 담기
+				while(rs.next()) {
+					if(join_id.equals(rs.getString("id"))) {
+						JOptionPane.showMessageDialog(frame, "이미 존재하는 아이디 입니다");
+					}
+				}
+				String sql2 =  "insert into user(name, id, pass, regular_chk) values('"+join_name+"', '"
+						        +join_id+"', '"+join_pass+"', 'false');"; 
+				Statement stmt2 = conn.createStatement();
+				stmt.executeUpdate(sql2);
+						  
 				// System.out.println("성공");
-				
-				JOptionPane.showMessageDialog(frame, "가입되었습니다"); 
-		
-				 new LoginPage(); // JoinPage 실행
-		         setVisible(false);  // 창 안보이게 하기 
-				
+				  
+				JOptionPane.showMessageDialog(frame, "가입되었습니다");
+				  
+				new LoginPage(); // JoinPage 실행 setVisible(false); // 창 안보이게 하기
+				setVisible(false);  // 창 안보이게 하기 
+				 				
 			}catch(Exception ee) {
 				System.out.println("실패");
 			}
