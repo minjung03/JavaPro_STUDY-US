@@ -25,10 +25,13 @@ import javax.swing.border.LineBorder;
 
 public class JoinPage extends JFrame {
 	
-	private JPanel contentPane, panel;
+	private JPanel contentPane, panel,  subtitle_panel;
 	private JTextField field_id,  field_pass, field_name;
-	private JLabel textID, textPASS, textNAME;
+	private JLabel textID, textPASS, textNAME, title;
 	private JButton btn_Join;
+	
+	Font font_10 = new Font("Cafe24SsurroundAir", Font.PLAIN, 10);
+	Font font_30 = new Font("Cafe24SsurroundAir", Font.PLAIN, 30);
 	
 	JoinPage(){
 		super("스터디카페 예약 프로그램 [STUDY US]");
@@ -47,7 +50,7 @@ public class JoinPage extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		panel = new JPanel();
+		panel = new JPanel(); //전체 패널
 		panel.setBackground(Color.WHITE);
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
@@ -62,7 +65,7 @@ public class JoinPage extends JFrame {
 		field_pass = new JTextField();
 		field_pass.setHorizontalAlignment(SwingConstants.CENTER);
 		field_pass.setBackground(SystemColor.inactiveCaptionBorder);
-		field_pass.setColumns(10);
+		field_pass.setColumns(10); 
 		field_pass.setBounds(528, 417, 357, 47);
 		panel.add(field_pass);
 		
@@ -75,40 +78,46 @@ public class JoinPage extends JFrame {
 		
 		JLabel textID = new JLabel("ID");
 		textID.setHorizontalAlignment(SwingConstants.CENTER);
-		textID.setFont(new Font("굴림", Font.PLAIN, 30));
+		textID.setFont(font_30);
+		textID.setForeground(new Color(211,183,219));
 		textID.setBounds(475, 347, 30, 47);
 		panel.add(textID);
 		
 		JLabel textPASS = new JLabel("PASSWORD");
 		textPASS.setHorizontalAlignment(SwingConstants.CENTER);
-		textPASS.setFont(new Font("굴림", Font.PLAIN, 30));
-		textPASS.setBounds(342, 417, 195, 47);
+		textPASS.setFont(font_30);
+		textPASS.setForeground(new Color(211,183,219));
+		textPASS.setBounds(320, 417, 195, 47);	//textPASS.setBounds(342, 417, 195, 47);
 		panel.add(textPASS);
 		
 		textNAME = new JLabel("NAME");
 		textNAME.setHorizontalAlignment(SwingConstants.CENTER);
-		textNAME.setFont(new Font("굴림", Font.PLAIN, 30));
-		textNAME.setBounds(420, 485, 105, 47);
+		textNAME.setFont(font_30);
+		textNAME.setForeground(new Color(211,183,219));
+		textNAME.setBounds(415, 485, 105, 47);
 		panel.add(textNAME);
 		
 		btn_Join = new JButton("가입하기");
-		btn_Join.setBackground(Color.BLACK);
+		btn_Join.setFont(font_10);
+		btn_Join.setBackground(new Color(211,183,219));
+		btn_Join.setBorderPainted(false);	//테두리 없애기
 		btn_Join.setForeground(Color.WHITE);
 		btn_Join.setBounds(788, 567, 97, 28);
 		panel.add(btn_Join);
 		
-		JPanel subtitle_panel = new JPanel();
-		subtitle_panel.setLayout(null);
-		subtitle_panel.setForeground(new Color(211, 211, 211));
-		subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
-		subtitle_panel.setBounds(0, 0, 1286, 52);
-		panel.add(subtitle_panel);
-		
-		JLabel lblNewLabel = new JLabel("STUDY US");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-		lblNewLabel.setBounds(18, 5, 440, 42);
-		subtitle_panel.add(lblNewLabel);
+		  	 subtitle_panel = new JPanel();
+	         subtitle_panel.setLayout(null);
+	         subtitle_panel.setForeground(new Color(211, 211, 211));
+	         subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+	         subtitle_panel.setBounds(0, 0, 1273, 52);
+	         panel.add(subtitle_panel);
+	         
+	         title = new JLabel("STUDY US");
+	         title.setForeground(new Color(255, 255, 255));
+	         title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+	         title.setBounds(22, 6, 440, 42);
+	         subtitle_panel.add(title);
+	    
 		btn_Join.addActionListener(new Listener(this));
 		
 	}

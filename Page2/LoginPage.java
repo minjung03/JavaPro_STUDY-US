@@ -35,6 +35,9 @@ public class LoginPage  extends JFrame {
    private JLabel textID, textPASS, title;
    private JButton btn_Login;
    
+   Font font_10 = new Font("Cafe24SsurroundAir", Font.PLAIN, 10);
+   Font font_30 = new Font("Cafe24SsurroundAir", Font.PLAIN, 30);
+   
    LoginPage(){
       
       super("스터디카페 예약 프로그램 [STUDY US]");
@@ -72,19 +75,23 @@ public class LoginPage  extends JFrame {
        field_pass.setBounds(534, 401, 357, 47);
        panel.add(field_pass);
       
-       JLabel textID = new JLabel("ID");
-         textID.setFont(new Font("굴림", Font.PLAIN, 30));
+       	JLabel textID = new JLabel("ID");
+         textID.setFont(font_30);
+         textID.setForeground(new Color(211,183,219));
          textID.setBounds(481, 331, 30, 47);
          panel.add(textID);
       
          JLabel textPASS = new JLabel("PASSWORD");
-         textPASS.setFont(new Font("굴림", Font.PLAIN, 30));
+         textPASS.setFont(font_30);
+         textPASS.setForeground(new Color(211,183,219));
          textPASS.setBounds(348, 401, 195, 47);
          panel.add(textPASS);
       
          btn_Login = new JButton("로그인");
          btn_Login.setForeground(Color.WHITE);
-         btn_Login.setBackground(Color.black);
+         btn_Login.setFont(font_10);
+         btn_Login.setBackground(new Color(211,183,219));
+         btn_Login.setBorderPainted(false);	//테두리 없애기
          btn_Login.setBounds(794, 493, 97, 28);
          btn_Login.setBorder(new LineBorder(new Color(0, 0, 0), 0, true)); 
          panel.add(btn_Login);         

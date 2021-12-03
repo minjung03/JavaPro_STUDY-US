@@ -54,18 +54,18 @@ public class PricePage extends JFrame {
       JPanel subtitle_panel = new JPanel();
       subtitle_panel.setLayout(null);
       subtitle_panel.setForeground(new Color(211, 211, 211));
-      subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
-      subtitle_panel.setBounds(0, 0, 1286, 52);
+      subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+      subtitle_panel.setBounds(0, 0, 1273, 52);
       panel.add(subtitle_panel);
       
-      JLabel subtitle_text = new JLabel("STUDY US");
-      subtitle_text.setBounds(27, 4, 440, 42);
-      subtitle_panel.add(subtitle_text);
-      subtitle_text.setForeground(Color.WHITE);
-      subtitle_text.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+      JLabel title = new JLabel("STUDY US");
+      title.setForeground(new Color(255, 255, 255));
+      title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+      title.setBounds(22, 6, 440, 42);
+      subtitle_panel.add(title);
       
       JPanel pricetitle_panel = new JPanel();
-      pricetitle_panel.setBorder(new LineBorder(Color.LIGHT_GRAY, 30, true));
+      pricetitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
       pricetitle_panel.setBounds(156, 62, 196, 39);
       panel.add(pricetitle_panel);
       pricetitle_panel.setLayout(null);
@@ -76,11 +76,10 @@ public class PricePage extends JFrame {
       pricetitle_text.setBounds(56, 7, 105, 25);
       pricetitle_panel.add(pricetitle_text);
       
-      JPanel price_panel = new JPanel();
+      JPanel price_panel = new JPanel();	//Å×µÎ¸®
       price_panel.setBounds(30, 78, 449, 657);
       panel.add(price_panel);
-      price_panel.setBackground(new Color(233,233,233));
-      price_panel.setBorder(new LineBorder(new Color(233, 233, 233), 3, true));
+      price_panel.setBorder(new LineBorder(new Color(211,183,219), 3, true));
       price_panel.setLayout(null);
       
       JPanel hourstitle_panel = new JPanel();
@@ -421,9 +420,9 @@ public class PricePage extends JFrame {
       meetingroom_text_price.setBounds(53, 6, 51, 20);
       meetingroom_panel_price.add(meetingroom_text_price);
       
-      JPanel roomtitle_panel = new JPanel();
+      JPanel roomtitle_panel = new JPanel(); 
       roomtitle_panel.setLayout(null);
-      roomtitle_panel.setBorder(new LineBorder(Color.LIGHT_GRAY, 30, true));
+      roomtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
       roomtitle_panel.setBounds(779, 62, 189, 39);
       panel.add(roomtitle_panel);
       
@@ -436,7 +435,7 @@ public class PricePage extends JFrame {
       JPanel room_panel = new JPanel();
       room_panel.setBackground(Color.WHITE);
       room_panel.setLayout(null);
-      room_panel.setBorder(new LineBorder(new Color(233, 233, 233), 3, true));
+      room_panel.setBorder(new LineBorder(new Color(211,183,219), 3, true));
       room_panel.setBounds(491, 79, 760, 657);
       panel.add(room_panel);
       
