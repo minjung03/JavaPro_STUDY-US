@@ -130,7 +130,7 @@ public class LoginPage  extends JFrame {
 			}			
 			else if(login_id.equals("studyus") && login_pass.equals("admin")) {
 				JOptionPane.showMessageDialog(frame, "관리자 모드로 로그인 합니다"); 
-				new AdminShowSeat(); // SelectTimeTablePage 실행
+				new UserListPage(); // SelectTimeTablePage 실행
 	            setVisible(false);  // 창 안보이게 하기 
 			}
 			else {			

@@ -51,17 +51,17 @@ public class AdminShowSeat extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel subtitle_panel = new JPanel();
-		subtitle_panel.setLayout(null);
-		subtitle_panel.setForeground(new Color(211, 211, 211));
-		subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
-		subtitle_panel.setBounds(0, 0, 1286, 52);
-		panel.add(subtitle_panel);
-		
-		JLabel subtitle_text = new JLabel("STUDY US");
-		subtitle_text.setForeground(Color.WHITE);
-		subtitle_text.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-		subtitle_text.setBounds(27, 4, 440, 42);
-		subtitle_panel.add(subtitle_text);
+        subtitle_panel.setLayout(null);
+        subtitle_panel.setForeground(new Color(211, 211, 211));
+        subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+        subtitle_panel.setBounds(0, 0, 1273, 52);
+        panel.add(subtitle_panel);
+        
+        title = new JLabel("STUDY US");
+        title.setForeground(new Color(255, 255, 255));
+        title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+        title.setBounds(22, 6, 440, 42);
+        subtitle_panel.add(title);
 		
 		JPanel seattable_title_panel = new JPanel();
 		seattable_title_panel.setBounds(101, 96, 196, 39);
