@@ -25,12 +25,17 @@ import java.awt.Color;
 import java.awt.Button;
 import javax.swing.JTable;
 
+/**
+ * @author ikwmj
+ *
+ */
 public class SeatPage extends JFrame {
 
 	private JPanel contentPane, panel, panel2, seattable_panel;
 	private JTextField field_pass;
 	private JLabel textID, textPASS, title;
 	private JTable table;
+	JLabel[] SeatNum = new JLabel[18];
 	
 	SeatPage(){		
 		super("스터디카페 예약 프로그램 [STUDY US]");
@@ -110,6 +115,10 @@ public class SeatPage extends JFrame {
 	      label_mainRoom.setBounds(258, 62, 57, 15);
 	      seattable_panel.add(label_mainRoom);
 	      
+	      
+	      
+
+	      
 	  	  SeatSetting();
 
 	      
@@ -145,6 +154,7 @@ public class SeatPage extends JFrame {
 					 setVisible(false);  // 창 안보이게 하기 
 				}
 			});
+			
 			btn_Chk.setForeground(Color.WHITE);
 			btn_Chk.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 			btn_Chk.setBackground(Color.BLACK);
@@ -257,18 +267,13 @@ public class SeatPage extends JFrame {
 	
 	public void SeatSetting() {
 		
-	     
-		JLabel[] SeatNum = new JLabel[18];
-		String num = "1";
+		String[] num = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"};
+	
 		for(int i=0; i<18; i++) {
-			SeatNum[i] = new JLabel(num);
+			SeatNum[i] = new JLabel("사용가능");
 			SeatNum[i].setFont(new Font("굴림", Font.BOLD, 15));
 			SeatNum[i].setForeground(Color.WHITE);
 			SeatNum[i].setHorizontalAlignment(SwingConstants.CENTER);
-		      
-			int num_set = Integer.valueOf(num);
-			num_set++;
-			num = String.valueOf(num_set);
 		}
 		
 		int label_height = 102;
@@ -295,12 +300,20 @@ public class SeatPage extends JFrame {
 		}
 		
 		
-		
 		JButton[] btn_seat = new JButton[18];
 		for(int i=0; i<18; i++) {
-			btn_seat[i] = new JButton("사용가능");
+			btn_seat[i] = new JButton(num[i]);
 			btn_seat[i].setBackground(SystemColor.controlHighlight);
 			btn_seat[i].setForeground(Color.WHITE);
+						
+			btn_seat[i].addActionListener(new ActionListener() {
+		         public void actionPerformed(ActionEvent e) {
+		        	 JButton btn_num = (JButton)e.getSource();
+		        	 
+		        	 
+		        	 
+		          }
+		     });
 		}
 		
 		int height_Default = 92;
@@ -324,13 +337,12 @@ public class SeatPage extends JFrame {
 		for(int i=0; i<18; i++) {	
 			seattable_panel.add(btn_seat[i]);
 		}
-		
-	}
-	public void actionPerformed(ActionEvent e) {
-
 	}
 	
-	   public static void main(String[] args) {
-	      new SeatPage();
-	   }
+
+   public static void main(String[] args) {
+      new SeatPage();
+   }
+   
+   
 }
