@@ -29,6 +29,8 @@ public class SelectionInfo extends JFrame {
    private JPanel contentPane, panel;
    private JButton btn_cancel, btn_sumit;
    
+   
+   
    SelectionInfo(){
       
       super("스터디카페 예약 프로그램 [STUDY US]");
@@ -60,22 +62,22 @@ public class SelectionInfo extends JFrame {
       JPanel subtitle_panel = new JPanel();
       subtitle_panel.setLayout(null);
       subtitle_panel.setForeground(new Color(211, 211, 211));
-      subtitle_panel.setBorder(new LineBorder(new Color(192, 192, 192), 30, true));
-      subtitle_panel.setBounds(0, 0, 1286, 52);
+      subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+      subtitle_panel.setBounds(0, 0, 1273, 52);
       panel.add(subtitle_panel);
       
-      JLabel subtitle_text = new JLabel("STUDY US");
-      subtitle_text.setForeground(Color.WHITE);
-      subtitle_text.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-      subtitle_text.setBounds(27, 4, 440, 42);
-      subtitle_panel.add(subtitle_text);
+      JLabel title = new JLabel("STUDY US");
+      title.setForeground(new Color(255, 255, 255));
+      title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+      title.setBounds(22, 6, 440, 42);
+      subtitle_panel.add(title);
       
       JPanel seattable_title_panel = new JPanel();
       seattable_title_panel.setBounds(101, 96, 196, 39);
       
       panel.add(seattable_title_panel);
       seattable_title_panel.setLayout(null);
-      seattable_title_panel.setBorder(new LineBorder(new Color(184,184,184), 30, true));
+      seattable_title_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
       
       JLabel seattable_title_text = new JLabel("선택 정보");
       seattable_title_text.setHorizontalAlignment(SwingConstants.CENTER);
@@ -86,7 +88,7 @@ public class SelectionInfo extends JFrame {
       
       JPanel seattable_panel = new JPanel();
       seattable_panel.setBackground(Color.WHITE);
-      seattable_panel.setBorder(new LineBorder(new Color(192, 192, 192), 3, true));
+      seattable_panel.setBorder(new LineBorder(new Color(211,183,219), 3, true));
       seattable_panel.setBounds(72, 96, 1109, 590);
       panel.add(seattable_panel);
       seattable_panel.setLayout(null);
@@ -143,15 +145,17 @@ public class SelectionInfo extends JFrame {
          
          btn_sumit = new JButton("결제");
          btn_sumit.setForeground(Color.WHITE);
-         btn_sumit.setBackground(Color.BLACK);
-         btn_sumit.setBounds(805, 391, 127, 40);
+         btn_sumit.setBackground(new Color(211,183,219));
+         btn_sumit.setBounds(805, 391, 97, 28);	//97, 28
+         btn_sumit.setBorderPainted(false);	//테두리 없애기
          btn_sumit.setBorder(new LineBorder(new Color(0, 0, 0), 2, true)); 
          seattable_panel.add(btn_sumit);
          
          btn_cancel = new JButton("취소");
          btn_cancel.setForeground(Color.WHITE);
-         btn_cancel.setBackground(Color.BLACK);
-         btn_cancel.setBounds(666, 391, 127, 40);
+         btn_cancel.setBackground(new Color(211,183,219));
+         btn_cancel.setBorderPainted(false);	//테두리 없애기
+         btn_cancel.setBounds(666, 391, 97, 28);
          btn_cancel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true)); 
          seattable_panel.add(btn_cancel);
                
