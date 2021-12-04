@@ -1,7 +1,8 @@
 package Page2;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -13,35 +14,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Page2.JoinPage;
-import Page2.LoginPage;
-import Page2.StartPage;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Button;
-import javax.swing.JTable;
-
-public class SeatPage extends JFrame {
+public class AdminShowSeat extends JFrame {
 
 	private JPanel contentPane, panel, panel2, seattable_panel;
 	private JTextField field_pass;
 	private JLabel textID, textPASS, title;
 	private JTable table;
 	
-	Font font_10 = new Font("Cafe24SsurroundAir", Font.PLAIN, 10);
-	Font font_20 = new Font("Cafe24SsurroundAir", Font.PLAIN, 20);
-	
-	SeatPage(){		
+	AdminShowSeat(){		
 		super("스터디카페 예약 프로그램 [STUDY US]");
-		init(); 
+		init();
 	}
 	
 	public final void init() {
@@ -67,12 +56,12 @@ public class SeatPage extends JFrame {
 		
 		JPanel subtitle_panel = new JPanel();
         subtitle_panel.setLayout(null);
-        subtitle_panel.setForeground(new Color(211, 211, 211));
-        subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+        subtitle_panel.setForeground(Color.white);
+        subtitle_panel.setBorder(new LineBorder(Color.black, 30, true));
         subtitle_panel.setBounds(0, 0, 1273, 52);
         panel.add(subtitle_panel);
         
-        JLabel title = new JLabel("STUDY US");
+        title = new JLabel("STUDY US");
         title.setForeground(new Color(255, 255, 255));
         title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
         title.setBounds(22, 6, 440, 42);
@@ -93,7 +82,6 @@ public class SeatPage extends JFrame {
               g.drawImage(img, 3, 0, null);
              }
            } 
-        
         JPanel flower_img_panel = new JPanel();
         flower_img_panel.setBounds(130, 12, 40, 30);
         subtitle_panel.add(flower_img_panel);
@@ -108,12 +96,12 @@ public class SeatPage extends JFrame {
 		
 		panel.add(seattable_title_panel);
 		seattable_title_panel.setLayout(null);
-		seattable_title_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+		seattable_title_panel.setBorder(new LineBorder(new Color(184,184,184), 30, true));
 		
 		JLabel seattable_title_text = new JLabel("좌석선택");
 		seattable_title_text.setHorizontalAlignment(SwingConstants.CENTER);
 		seattable_title_text.setForeground(Color.WHITE);
-		seattable_title_text.setFont(font_20);
+		seattable_title_text.setFont(new Font("±¼¸²", Font.PLAIN, 20));
 		seattable_title_text.setBounds(31, 7, 139, 25);
 		seattable_title_panel.add(seattable_title_text);
 		
@@ -134,7 +122,7 @@ public class SeatPage extends JFrame {
 	      
 	      
 	      JPanel panel1 = new JPanel();
-	      panel1.setBackground(new Color(211,183,219));
+	      panel1.setBackground(Color.BLACK);
 	      panel1.setBounds(247, 54, 78, 2);
 	      seattable_panel.add(panel1);
 	      
@@ -147,7 +135,7 @@ public class SeatPage extends JFrame {
 
 	      
 	      JPanel panel2 = new JPanel();
-	      panel2.setBackground(new Color(211,183,219));
+	      panel2.setBackground(Color.BLACK);
 	      panel2.setBounds(836, 54, 78, 2);
 	      seattable_panel.add(panel2);
 	      
@@ -160,7 +148,7 @@ public class SeatPage extends JFrame {
 	      
 	      
 	      JPanel panel3 = new JPanel();
-	      panel3.setBackground(new Color(211,183,219));
+	      panel3.setBackground(Color.BLACK);
 	      panel3.setBounds(884, 243, 78, 2);
 	      seattable_panel.add(panel3);
 	      
@@ -180,9 +168,8 @@ public class SeatPage extends JFrame {
 				}
 			});
 			btn_Chk.setForeground(Color.WHITE);
-			btn_Chk.setFont(font_10);
 			btn_Chk.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
-			btn_Chk.setBackground(new Color(211,183,219));
+			btn_Chk.setBackground(Color.BLACK);
 			btn_Chk.setBounds(941, 531, 97, 28);
 			seattable_panel.add(btn_Chk);      
 		
@@ -582,6 +569,6 @@ public class SeatPage extends JFrame {
 	}
 	   
 	   public static void main(String[] args) {
-	      new SeatPage();
+	      new AdminShowSeat();
 	   }
 }

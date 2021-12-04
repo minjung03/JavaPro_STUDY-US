@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,10 @@ public class StartPage extends JFrame {
    private JPanel contentPane, panel;
    private JButton btn_login, btn_join;
    private JLabel title;
+    
+   //폰트적용
+   Font font1 = new Font("Cafe24SsurroundAir", Font.PLAIN, 70); //첫화면 제목 폰트
+   Font font_10 = new Font("Cafe24SsurroundAir", Font.BOLD, 10); 
    
    StartPage(){
       super("스터디카페 예약 프로그램 [STUDY US]");
@@ -42,15 +47,18 @@ public class StartPage extends JFrame {
       panel.setLayout(null);
       
       title = new JLabel("STUDY US");
+      title.setFont(font1);
+      title.setForeground(new Color(211,183,219));
       title.setHorizontalAlignment(SwingConstants.CENTER);
-      title.setFont(new Font("Century Gothic", Font.PLAIN, 70));
-      title.setBounds(132, 296, 624, 175);
+      title.setBounds(132, 296, 624, 175);//624
       panel.add(title);
       
       btn_login = new JButton("로그인");
+      btn_login.setFont(font_10);
       btn_login.setForeground(Color.WHITE);
-      btn_login.setBounds(813, 448, 97, 23);
-      btn_login.setBackground(Color.BLACK);
+      btn_login.setBorderPainted(false);	//테두리 없애기
+      btn_login.setBounds(900, 448, 97, 28);
+      btn_login.setBackground(new Color(211,183,219));
       panel.add(btn_login);
       
       btn_login.addActionListener(new ActionListener() {
@@ -60,11 +68,12 @@ public class StartPage extends JFrame {
          }
       });
       
-      
       btn_join = new JButton("회원가입");
+      btn_join.setFont(font_10);
       btn_join.setForeground(Color.WHITE);
-      btn_join.setBackground(Color.BLACK);
-      btn_join.setBounds(813, 481, 97, 23);
+      btn_join.setBorderPainted(false);	//테두리 없애기
+      btn_join.setBackground(new Color(211,183,219));
+      btn_join.setBounds(900, 481, 97, 28);
       panel.add(btn_join);
       
       btn_join.addActionListener(new ActionListener() {
@@ -73,11 +82,9 @@ public class StartPage extends JFrame {
             setVisible(false);  // 창 안보이게 하기 
          }
       });
-   
    }
    
    public static void main(String[] args) {
       new StartPage();
    }
-
 }
