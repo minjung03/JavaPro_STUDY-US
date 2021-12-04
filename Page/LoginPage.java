@@ -3,8 +3,10 @@ package Page;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,13 +33,15 @@ import javax.swing.border.LineBorder;
 
 public class LoginPage  extends JFrame {
    
-   private JPanel contentPane, panel, subtitle_panel;
+   private JPanel contentPane, panel, subtitle_panel, flower_img_panel, textID_panel, textPASS_panel;
    private JTextField field_id,  field_pass;
    private JLabel textID, textPASS, title;
    private JButton btn_Login;
    
+   Font font_12 = new Font("Cafe24SsurroundAir", Font.BOLD, 12); 
+   Font font_30 = new Font("Cafe24SsurroundAir", Font.PLAIN, 30);
+   
    LoginPage(){
-      
       super("스터디카페 예약 프로그램 [STUDY US]");
       init();
    }
@@ -51,63 +56,109 @@ public class LoginPage  extends JFrame {
       contentPane = new JPanel();
       contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
       contentPane.setLayout(new BorderLayout(0, 0));
-
       setContentPane(contentPane);
       
+      /* 요소를 전부 붙일 메인 panel */
       panel = new JPanel();
       panel.setBackground(Color.WHITE);
       contentPane.add(panel, BorderLayout.CENTER);
       panel.setLayout(null);
       
+      /* 상단 바 panel */
+      subtitle_panel = new JPanel();
+      subtitle_panel.setLayout(null);
+      subtitle_panel.setForeground(new Color(211, 211, 211));
+      subtitle_panel.setBorder(new LineBorder(new Color(215,176,212), 30, true));
+      subtitle_panel.setBounds(0, 0, 1274, 52);
+      panel.add(subtitle_panel);
+      
+      /* 상단 바 문구 */
+      title = new JLabel("STUDY US");
+      title.setForeground(new Color(255, 255, 255));
+      title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+      title.setBounds(22, 6, 440, 42);
+      subtitle_panel.add(title);
+      
+      /* 상단 바 꽃 이미지 */
+      flower_img_panel = new JPanel();
+      flower_img_panel.setBounds(130, 12, 40, 30);
+      subtitle_panel.add(flower_img_panel);
+      flower_img_panel.setLayout(null);
+        
+      ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+      flower_img_panel.add(flowerimg);
+      
+      /* 아이디 입력 부분 */
       field_id = new JTextField();
-       field_id.setBackground(SystemColor.inactiveCaptionBorder);
-       field_id.setBounds(534, 331, 357, 47);
-       panel.add(field_id);
-       field_id.setColumns(10);
+      field_id.setBounds(520, 275, 360, 40);
+      field_id.setBackground(new Color(244,244,244));
+      field_id.setBorder(new LineBorder(new Color(244,244,244), 0, true));
+      panel.add(field_id);
       
-       field_pass = new JTextField();
-       field_pass = new JTextField();
-       field_pass.setBackground(SystemColor.inactiveCaptionBorder);
-       field_pass.setColumns(10);
-       field_pass.setBounds(534, 401, 357, 47);
-       panel.add(field_pass);
+      textID_panel = new JPanel();
+      textID_panel.setBackground(new Color(255,255,255));
+      textID_panel.setBounds(516, 271, 377, 47);
+      textID_panel.setBorder(new LineBorder(new Color(244,244,244), 30, true));
+      panel.add(textID_panel);
       
-       JLabel textID = new JLabel("ID");
-         textID.setFont(new Font("굴림", Font.PLAIN, 30));
-         textID.setBounds(481, 331, 30, 47);
-         panel.add(textID);
+      JLabel textID = new JLabel("ID");
+      textID.setFont(font_30);
+      textID.setForeground(new Color(127,114,165));
+	  textID.setBounds(405, 271, 30, 47);
+      panel.add(textID);   
       
-         JLabel textPASS = new JLabel("PASSWORD");
-         textPASS.setFont(new Font("굴림", Font.PLAIN, 30));
-         textPASS.setBounds(348, 401, 195, 47);
-         panel.add(textPASS);
+       
+      /* 비밀번호 입력 부분 */
+      field_pass = new JTextField();
+      field_pass.setBounds(520, 355, 360, 40);
+      field_pass.setBackground(new Color(244,244,244));
+      field_pass.setBorder(new LineBorder(new Color(244,244,244), 0, true));
+      panel.add(field_pass);
       
-         btn_Login = new JButton("로그인");
-         btn_Login.setForeground(Color.WHITE);
-         btn_Login.setBackground(Color.black);
-         btn_Login.setBounds(794, 493, 97, 28);
-         btn_Login.setBorder(new LineBorder(new Color(0, 0, 0), 0, true)); 
-         panel.add(btn_Login);         
-         btn_Login.addActionListener(new Listener(this));
-         
-         subtitle_panel = new JPanel();
-         subtitle_panel.setLayout(null);
-         subtitle_panel.setForeground(new Color(211, 211, 211));
-         subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
-         subtitle_panel.setBounds(0, 0, 1273, 52);
-         panel.add(subtitle_panel);
-         
-         title = new JLabel("STUDY US");
-         title.setForeground(new Color(255, 255, 255));
-         title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-         title.setBounds(22, 6, 440, 42);
-         subtitle_panel.add(title);
-         // btn_Login.addActionListener(new Listener(this));
+      textPASS_panel = new JPanel();
+      textPASS_panel.setBackground(new Color(255,255,255));
+      textPASS_panel.setBounds(514, 351, 377, 47);
+      textPASS_panel.setBorder(new LineBorder(new Color(244,244,244), 30, true));
+      panel.add(textPASS_panel);
+      
+      JLabel textPASS = new JLabel("PASSWORD");
+      textPASS.setFont(font_30);
+      textPASS.setForeground(new Color(127,114,165));
+      textPASS.setBounds(328, 351, 195, 47);
+      panel.add(textPASS);
+      
+
+      /* 로그인 버튼 */
+      btn_Login = new JButton("로그인");
+      btn_Login.setForeground(Color.WHITE);
+      btn_Login.setFont(font_12);
+      btn_Login.setBorderPainted(false);	//테두리 없애기
+      btn_Login.setBounds(783, 440, 105, 33);
+      btn_Login.setBackground(new Color(53,69,98));       
+      btn_Login.addActionListener(new Listener(this));
+      panel.add(btn_Login);  
          
    }
    
+   /* 패널에 그림 올리기 클래스 (꽃 이미지) */
+   class ImagePanel extends JPanel {
+       private Image img;
+       
+       public ImagePanel(Image img) {
+           this.img = img;
+           setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+           setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+           setLayout(null);
+       }
+       public void paintComponent(Graphics g) {
+           g.drawImage(img, 3, 0, null);
+       }
+   } 
+   
+   /* 로그인 버튼 클릭 이벤트 */
    class Listener implements ActionListener{
 		JFrame frame;
+		User user;
 		public Listener(JFrame f) {
 			frame = f;
 		}
@@ -122,10 +173,10 @@ public class LoginPage  extends JFrame {
 				JOptionPane.showMessageDialog(frame, "값을 입력해주세요"); 
 			}			
 			else if(login_id.equals("studyus") && login_pass.equals("admin")) {
-				JOptionPane.showMessageDialog(frame, "관리자 모드로 로그인 합니다"); 
-				new AdminShowSeat(); // SelectTimeTablePage 실행
-	            setVisible(false);  // 창 안보이게 하기 
-			}
+	            JOptionPane.showMessageDialog(frame, "관리자 모드로 로그인 합니다"); 
+	            new AdminUserListPage(); // SelectTimeTablePage 실행
+	               setVisible(false);  // 창 안보이게 하기 
+	        }
 			else {			
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
@@ -145,6 +196,10 @@ public class LoginPage  extends JFrame {
 						String user_pw = rs.getString("pass");
 						
 						if(user_id.equals(login_id) && user_pw.equals(login_pass)) {				
+							//user.setId(user_id);
+							//user.setPass(user_pw);
+							//user.setName(user_name);
+							
 							JOptionPane.showMessageDialog(frame, user_name+"님, 안녕하세요!"); 
 							new SelectTimeTablePage(); // SelectTimeTablePage 실행
 				            setVisible(false);  // 창 안보이게 하기 
@@ -186,7 +241,7 @@ public class LoginPage  extends JFrame {
 				}
 			 }
 		}
-   }
+  }
    public static void main(String[] args) {
       new LoginPage();
    }

@@ -13,10 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class StartPage extends JFrame {
    
-   private JPanel contentPane, panel;
+   private JPanel contentPane, main_panel, view_panel;
    private JButton btn_login, btn_join;
    private JLabel title, sub_title;
     
@@ -42,51 +43,66 @@ public class StartPage extends JFrame {
       contentPane.setLayout(new BorderLayout(0, 0));
       setContentPane(contentPane);
       
-      panel = new JPanel();
-      panel.setBackground(Color.WHITE);
-      contentPane.add(panel, BorderLayout.CENTER);
-      panel.setLayout(null);
-      
+      /* 요소를 전부 붙일 메인 panel */
+      main_panel = new JPanel();
+      main_panel.setBackground(Color.WHITE);
+      contentPane.add(main_panel, BorderLayout.CENTER);
+      main_panel.setLayout(null);
+
+      /* 서브 타이틀 */
       sub_title = new JLabel("스터디 카페 관리 프로그램");
       sub_title.setFont(font_17);
-      sub_title.setForeground(new Color(127,114,165));
-      sub_title.setHorizontalAlignment(SwingConstants.CENTER);
-      sub_title.setBounds(132, 206, 624, 175);//624
-      panel.add(sub_title);
+      sub_title.setForeground(new Color(53,69,98));
+      sub_title.setHorizontalAlignment(SwingConstants.LEFT);
+      sub_title.setBounds(360, 140, 624, 175);//624
+      main_panel.add(sub_title);
       
+      /* 메인 타이틀 */
       title = new JLabel("STUDY US");
       title.setFont(font_75);
-      title.setForeground(new Color(127,114,165));
+      title.setForeground(new Color(255,255,255));
       title.setHorizontalAlignment(SwingConstants.CENTER);
-      title.setBounds(132, 266, 624, 175);//624
-      panel.add(title);
+      title.setBounds(330, 256, 624, 175);//624
+      main_panel.add(title);
       
+      /* 타이틀 배경 */
+      view_panel = new JPanel();
+      view_panel.setBackground(new Color(255,255,255));
+      view_panel.setBounds(330, 250, 624, 175);
+      // view_panel.setLayout(null);
+      view_panel.setBorder(new LineBorder(new Color(237,197,214), 90, true));
+      main_panel.add(view_panel);
+      
+      /* 버튼 로그인 */
       btn_login = new JButton("로그인");
       btn_login.setFont(font_12);
       btn_login.setForeground(Color.WHITE);
-      btn_login.setBorderPainted(false);	//테두리 없애기
-      btn_login.setBounds(900, 448, 97, 28);
-      btn_login.setBackground(new Color(215,176,212));
-      panel.add(btn_login);
+      btn_login.setBorderPainted(false); //테두리 없애기
+      btn_login.setBounds(840, 460, 105, 33);
+      btn_login.setBackground(new Color(53,69,98));
+      main_panel.add(btn_login);
       
       btn_login.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            new LoginPage(); // JoinPage 실행
+            new LoginPage();  // LoginPage 실행
             setVisible(false);  // 창 안보이게 하기 
          }
       });
+      
+      /* 버튼 회원가입 */
       btn_join = new JButton("회원가입");
       btn_join.setFont(font_12);
       btn_join.setForeground(Color.WHITE);
-      btn_join.setBorderPainted(false);	//테두리 없애기
-      btn_join.setBackground(new Color(215,176,212));
-      btn_join.setBounds(900, 481, 97, 28);
-      panel.add(btn_join);
+      btn_join.setBorderPainted(false);	
+      btn_join.setBackground(new Color(53,69,98));
+      btn_join.setBounds(717, 460, 105, 33);
+      // btn_join.setBounds(850, 501, 97, 28);
+      main_panel.add(btn_join);
       
       btn_join.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            new JoinPage(); // JoinPage 실행
-            setVisible(false);  // 창 안보이게 하기 
+            new JoinPage();
+            setVisible(false);  
          }
       });
    }
