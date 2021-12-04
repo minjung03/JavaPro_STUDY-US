@@ -67,6 +67,7 @@ public class LoginPage  extends JFrame {
       /* »ó´Ü ¹Ù panel */
       subtitle_panel = new JPanel();
       subtitle_panel.setLayout(null);
+      subtitle_panel.setBackground(new Color(255,255,255));
       subtitle_panel.setForeground(new Color(211, 211, 211));
       subtitle_panel.setBorder(new LineBorder(new Color(215,176,212), 30, true));
       subtitle_panel.setBounds(0, 0, 1274, 52);
