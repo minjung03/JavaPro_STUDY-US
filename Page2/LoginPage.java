@@ -3,8 +3,10 @@ package Page2;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -111,6 +114,30 @@ public class LoginPage  extends JFrame {
          subtitle_panel.add(title);
          // btn_Login.addActionListener(new Listener(this));
          
+         //패널에 그림을 올려주는 클래스
+         class ImagePanel extends JPanel {
+           private Image img;
+           
+           public ImagePanel(Image img) {
+               this.img = img;
+               setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+               setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+               setLayout(null);
+           }
+           
+           public void paintComponent(Graphics g) {
+               g.drawImage(img, 3, 0, null);
+              }
+            } 
+         JPanel flower_img_panel = new JPanel();
+         flower_img_panel.setBounds(130, 12, 40, 30);
+         subtitle_panel.add(flower_img_panel);
+         flower_img_panel.setLayout(null);
+
+         ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+         flower_img_panel.add(flowerimg);
+
+         
    }
    
    class Listener implements ActionListener{
@@ -130,7 +157,7 @@ public class LoginPage  extends JFrame {
 			}			
 			else if(login_id.equals("studyus") && login_pass.equals("admin")) {
 				JOptionPane.showMessageDialog(frame, "관리자 모드로 로그인 합니다"); 
-				new UserListPage(); // SelectTimeTablePage 실행
+				new AdminUserListPage(); // SelectTimeTablePage 실행
 	            setVisible(false);  // 창 안보이게 하기 
 			}
 			else {			

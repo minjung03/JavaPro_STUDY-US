@@ -68,7 +68,6 @@ public class StartPage extends JFrame {
          }
       });
       
-      
       btn_join = new JButton("회원가입");
       btn_join.setFont(font_10);
       btn_join.setForeground(Color.WHITE);
@@ -83,11 +82,9 @@ public class StartPage extends JFrame {
             setVisible(false);  // 창 안보이게 하기 
          }
       });
-   
    }
    
    public static void main(String[] args) {
       new StartPage();
    }
-
 }

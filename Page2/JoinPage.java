@@ -2,7 +2,10 @@ package Page2;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -117,58 +121,90 @@ public class JoinPage extends JFrame {
 	         title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
 	         title.setBounds(22, 6, 440, 42);
 	         subtitle_panel.add(title);
+	         
+	         //패널에 그림을 올려주는 클래스
+	         class ImagePanel extends JPanel {
+	           private Image img;
+	           
+	           public ImagePanel(Image img) {
+	               this.img = img;
+	               setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+	               setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+	               setLayout(null);
+	           }
+	           
+	           public void paintComponent(Graphics g) {
+	               g.drawImage(img, 3, 0, null);
+	              }
+	            } 
+	         JPanel flower_img_panel = new JPanel();
+	         flower_img_panel.setBounds(130, 12, 40, 30);
+	         subtitle_panel.add(flower_img_panel);
+	         flower_img_panel.setLayout(null);
+
+	         ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+	         flower_img_panel.add(flowerimg);
+
 	    
 		btn_Join.addActionListener(new Listener(this));
 		
 	}
 	class Listener implements ActionListener{
-		JFrame frame;
-		public Listener(JFrame f) {
-			frame = f;
-		}
-		@Override
-		public void actionPerformed(ActionEvent e) {
+	      JFrame frame;
+	      public Listener(JFrame f) {
+	         frame = f;
+	      }
+	      @Override
+	      public void actionPerformed(ActionEvent e) {
 
-			String join_name = field_name.getText();
-			String join_id = field_id.getText();
-			String join_pass = field_pass.getText();
-			
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				String url = "jdbc:mysql://localhost:3306/STUDY_US";
-				String id = "root";
-				String pw = "111111";
-				Connection conn = DriverManager.getConnection(url, id, pw);
-	
-				String sql = "SELECT * FROM user";
-				
-				Statement stmt = conn.createStatement(); 
-				ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
-				
-				//ResultSet에 담긴 결과를 ArrayList에 담기
-				while(rs.next()) {
-					if(join_id.equals(rs.getString("id"))) {
-						JOptionPane.showMessageDialog(frame, "이미 존재하는 아이디 입니다");
-					}
-				}
-				String sql2 =  "insert into user(name, id, pass, regular_chk) values('"+join_name+"', '"
-						        +join_id+"', '"+join_pass+"', 'false');"; 
-				Statement stmt2 = conn.createStatement();
-				stmt.executeUpdate(sql2);
-						  
-				// System.out.println("성공");
-				  
-				JOptionPane.showMessageDialog(frame, "가입되었습니다");
-				  
-				new LoginPage(); // JoinPage 실행 setVisible(false); // 창 안보이게 하기
-				setVisible(false);  // 창 안보이게 하기 
-				 				
-			}catch(Exception ee) {
-				System.out.println("실패");
-			}
-		}
-	}
-	
+	         String join_name = field_name.getText();
+	         String join_id = field_id.getText();
+	         String join_pass = field_pass.getText();
+	         
+	         
+	         if(join_name.equals("") || join_id.equals("") || join_pass.equals("")) {
+	            JOptionPane.showMessageDialog(frame, "값을 전부 입력해주세요");
+	         }
+	         else { 
+	         
+	         try {
+	      
+	               Class.forName("com.mysql.cj.jdbc.Driver");
+	               String url = "jdbc:mysql://localhost:3306/STUDY_US";
+	               String id = "root";
+	               String pw = "111111";
+	               Connection conn = DriverManager.getConnection(url, id, pw);
+	      
+	               String sql = "SELECT * FROM user";
+	               
+	               Statement stmt = conn.createStatement(); 
+	               ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
+	               
+	               //ResultSet에 담긴 결과를 ArrayList에 담기
+	               while(rs.next()) {
+	                  if(join_id.equals(rs.getString("id"))) {
+	                     JOptionPane.showMessageDialog(frame, "이미 존재하는 아이디 입니다");
+	                  }
+	               }
+	               String sql2 =  "insert into user(name, id, pass, time_chk) values('"+join_name+"', '"
+	                             +join_id+"', '"+join_pass+"', 'false');"; 
+	               Statement stmt2 = conn.createStatement();
+	               stmt.executeUpdate(sql2);
+	                       
+	               // System.out.println("성공");
+	                 
+	               JOptionPane.showMessageDialog(frame, "가입되었습니다");
+	                 
+	               new LoginPage(); // JoinPage 실행 setVisible(false); // 창 안보이게 하기
+	               setVisible(false);  // 창 안보이게 하기 
+	            
+	   
+	         }catch(Exception ee) {
+	            System.out.println("실패");
+	         }
+	         }
+	      }
+	   }
 	public static void main(String[] args) {
 		new JoinPage();
 	}

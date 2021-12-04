@@ -9,14 +9,19 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.TextArea;
 
 import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -26,8 +31,8 @@ import java.awt.event.ActionEvent;
 public class SelectTimeTablePage extends JFrame implements ItemListener {
 	
 	Font font1 = new Font("Cafe24SsurroundAir", Font.BOLD, 20);
-	Font font2 = new Font("Cafe24SsurroundAir", Font.BOLD, 10);
-	Font font3 = new Font("Cafe24SsurroundAir", Font.BOLD, 14);
+	Font font_10 = new Font("Cafe24SsurroundAir", Font.BOLD, 10);
+	Font font_14 = new Font("Cafe24SsurroundAir", Font.BOLD, 14);
 	
 	private JPanel contentPane;
 
@@ -60,34 +65,58 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-	  	 JPanel subtitle_panel = new JPanel();
-         subtitle_panel.setLayout(null);
-         subtitle_panel.setForeground(new Color(211, 211, 211));
-         subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
-         subtitle_panel.setBounds(0, 0, 1273, 52);
-         panel.add(subtitle_panel);
-         
+		JPanel timetable_title_panel = new JPanel();
+		timetable_title_panel.setBounds(101, 96, 196, 39);	
+		panel.add(timetable_title_panel);
+		timetable_title_panel.setLayout(null);
+		timetable_title_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+		
+		JPanel subtitle_panel = new JPanel();
+        subtitle_panel.setLayout(null);
+        subtitle_panel.setForeground(new Color(211, 211, 211));
+        subtitle_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
+        subtitle_panel.setBounds(0, 0, 1273, 52);
+        panel.add(subtitle_panel);
+		
+		 //패널에 그림을 올려주는 클래스
+        class ImagePanel extends JPanel {
+          private Image img;
+          
+          public ImagePanel(Image img) {
+              this.img = img;
+              setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+              setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+              setLayout(null);
+          }
+          
+          public void paintComponent(Graphics g) {
+              g.drawImage(img, 3, 0, null);
+             }
+           } 
+        JPanel flower_img_panel = new JPanel();
+        flower_img_panel.setBounds(130, 12, 40, 30);
+        subtitle_panel.add(flower_img_panel);
+        flower_img_panel.setLayout(null);
+
+        ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+        flower_img_panel.add(flowerimg);
+		 
          JLabel title = new JLabel("STUDY US");
          title.setForeground(new Color(255, 255, 255));
          title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
          title.setBounds(22, 6, 440, 42);
          subtitle_panel.add(title);
 
-		JPanel timetable_title_panel = new JPanel();
-		timetable_title_panel.setBounds(101, 96, 196, 39);	
-		panel.add(timetable_title_panel);
-		timetable_title_panel.setLayout(null);
-		timetable_title_panel.setBorder(new LineBorder(new Color(211,183,219), 30, true));
-
-		JLabel timetable_title_text = new JLabel("\uC2DC\uAC04\uD45C \uC120\uD0DD");
+		
+		JLabel timetable_title_text = new JLabel("시간표 선택");
 		timetable_title_text.setForeground(Color.WHITE);
 		timetable_title_text.setFont(font1);
-		timetable_title_text.setBounds(45, 7, 105, 25);
+		timetable_title_text.setBounds(45, 7, 110, 25);
 		timetable_title_panel.add(timetable_title_text);
 
 		JPanel timetable_panel = new JPanel();
 		timetable_panel.setBackground(Color.WHITE);
-		timetable_panel.setBorder(new LineBorder(new Color(192, 192, 192), 3, true));
+		timetable_panel.setBorder(new LineBorder(new Color(211,183,219), 3, true));
 		timetable_panel.setBounds(72, 96, 1109, 590);
 		panel.add(timetable_panel);
 		timetable_panel.setLayout(null);
@@ -106,7 +135,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
 		for (int i = 0; i < 4; i++) {
 			coupon_name_l[i] = new JLabel(cou_text[i]);
 			coupon_name_l[i].setForeground(Color.WHITE);
-			coupon_name_l[i].setFont(font3);
+			coupon_name_l[i].setFont(font_14);
 			coupon_name_p[i].add(coupon_name_l[i]);
 		}
 
@@ -169,7 +198,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
 		});
 
 		btn_Price.setForeground(Color.WHITE);
-		btn_Price.setFont(font2);
+		btn_Price.setFont(font_10);
 		btn_Price.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 		btn_Price.setBackground(new Color(211,183,219));
 		btn_Price.setBounds(829, 500, 97, 28);
@@ -188,7 +217,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
 			}
 		});
 		btn_Chk.setForeground(Color.WHITE);
-		btn_Chk.setFont(font2);
+		btn_Chk.setFont(font_10);
 		btn_Chk.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 		btn_Chk.setBackground(new Color(211,183,219));
 		btn_Chk.setBounds(938, 500, 97, 28);

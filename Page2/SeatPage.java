@@ -3,10 +3,13 @@ package Page2;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +25,7 @@ import Page2.LoginPage;
 import Page2.StartPage;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Button;
 import javax.swing.JTable;
 
@@ -73,6 +77,31 @@ public class SeatPage extends JFrame {
         title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
         title.setBounds(22, 6, 440, 42);
         subtitle_panel.add(title);
+        
+        //패널에 그림을 올려주는 클래스
+        class ImagePanel extends JPanel {
+          private Image img;
+          
+          public ImagePanel(Image img) {
+              this.img = img;
+              setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+              setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+              setLayout(null);
+          }
+          
+          public void paintComponent(Graphics g) {
+              g.drawImage(img, 3, 0, null);
+             }
+           } 
+        
+        JPanel flower_img_panel = new JPanel();
+        flower_img_panel.setBounds(130, 12, 40, 30);
+        subtitle_panel.add(flower_img_panel);
+        flower_img_panel.setLayout(null);
+
+        ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+        flower_img_panel.add(flowerimg);
+
 		
 		JPanel seattable_title_panel = new JPanel();
 		seattable_title_panel.setBounds(101, 96, 196, 39);
