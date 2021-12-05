@@ -24,7 +24,7 @@ import Page2.JoinPage;
 import Page2.LoginPage;
 import Page2.StartPage;
 import Page2.LoginPage.Listener;
-//import Page2.SelectTimeTablePage.ImagePanel;
+import Page2.SelectTimeTablePage.ImagePanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
