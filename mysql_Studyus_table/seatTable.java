@@ -1,7 +1,7 @@
 package mysql_Studyus_table;
 import java.sql.*;
 
-public class userTable {
+public class seatTable {
 
    public static void main(String[] args) {
       try {
@@ -17,11 +17,10 @@ public class userTable {
          Connection conn = DriverManager.getConnection(url, id, pw);
          System.out.println("DB 연결성공");
 
-         String sql = "CREATE TABLE USER(";
-         sql+="name varchar(10), ";
-         sql+="id varchar(20) primary key, ";
-         sql+="pass varchar(20),";
-         sql+="time_chk varchar(5) );";
+         String sql = "CREATE TABLE SEAT(";
+         sql+="room varchar(20), ";
+         sql+="seat_num int, ";
+         sql+="use_chk varchar(6));";
          
          Statement stmt = conn.createStatement(); 
          
