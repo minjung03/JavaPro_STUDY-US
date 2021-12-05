@@ -2,6 +2,7 @@ package Page;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -105,6 +106,23 @@ public class StartPage extends JFrame {
             setVisible(false);  
          }
       });
+      
+      
+      /* 이용안내 이미지 & 버튼 */
+      ImageIcon PricePageImg = new ImageIcon("./img/menu_icon.png");
+      JButton PricePage = new JButton(PricePageImg);
+      PricePage.setBorderPainted(false);
+      PricePage.setBounds(1170, 30, 60, 60); 
+      PricePage.setPreferredSize(new Dimension(60, 60));
+      PricePage.setContentAreaFilled(false);
+      main_panel.add(PricePage);
+     
+      PricePage.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+             new PricePage();
+             setVisible(false);  
+          }
+       });
    }
    
    public static void main(String[] args) {
