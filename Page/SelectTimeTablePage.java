@@ -1,5 +1,6 @@
 package Page;
 
+import static Page.LoginPage.user;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -37,6 +38,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
    public static String select_time;
    private JPanel contentPane, panel, subtitle_panel, flower_img_panel;
    private JLabel title;
+   String coupon, time;
    
    Font font_20 = new Font("Cafe24SsurroundAir", Font.BOLD, 20);
    Font font_12 = new Font("Cafe24SsurroundAir", Font.BOLD, 12);
@@ -49,6 +51,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
       setResizable(false); // 사이즈 변경 불가능
       setVisible(true); // 보이게 할지 여부
       setBounds(100, 100, 1300, 800);
+      
       
       contentPane = new JPanel();
       contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -142,7 +145,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
       /* 이용권 시간 목록 라디오 버튼 */
       ButtonGroup group = new ButtonGroup();
       JRadioButton radio_time[] = new JRadioButton[13];
-      String[] rdo_text = { "2시간", "4시간", "6시간", "8시간", "50시간", "100시간", "150시간", "1일", "1주", "2주", "4주", "회의룸", "개인실" };
+      String[] rdo_text = { "2시간", "4시간", "6시간", "8시간", "50시간", "100시간", "150시간", "1일", "1주", "2주", "4주", "회의룸 5시간", "개인실 3시간" };
 
       for (int i = 0; i < 13; i++) {
          radio_time[i] = new JRadioButton(rdo_text[i]);
@@ -173,7 +176,7 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
 
       height_Default = 165;
       for (int i = 11; i < 13; i++) {
-         radio_time[i].setBounds(900, height_Default, 102, 23);
+         radio_time[i].setBounds(885, height_Default, 142, 50);
          height_Default += 70;
       }
 

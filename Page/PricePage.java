@@ -54,7 +54,7 @@ public class PricePage extends JFrame {
    }
 
    public PricePage() {
-	   
+	   super("스터디카페 예약 프로그램 [STUDY US]"); 
 	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
       setResizable(false); //사이즈 변경 불가능
       setVisible(true); //보이게 할지 여부
@@ -272,7 +272,7 @@ public class PricePage extends JFrame {
        int coupon4_hours_Panel_height = 519; 
        JPanel coupon4_hours_Panel[] = new JPanel[4];
        JLabel coupon4_hours_text[] = new JLabel[4];
-       String coupon4_text[] = {"개인룸(1인) 2시간", "회의룸(6인) 5시간", "5,000원", "6,000원"};
+       String coupon4_text[] = {"개인룸(1인) 3시간", "회의룸(6인) 5시간", "5,000원", "6,000원"};
        
        for(int i=0; i<4; i++) {
     	   coupon4_hours_Panel[i] = new JPanel();

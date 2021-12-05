@@ -1,6 +1,6 @@
 package Page;
 
-
+import static Page.LoginPage.user;
 import static Page.SelectSeatPage.select_seat;
 import static Page.SelectTimeTablePage.select_time;
 import java.awt.BorderLayout;
@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -192,17 +193,44 @@ public class SelectionInfo extends JFrame {
 	       });
 	      	
 	}	
-	
+	/* 결제 버튼 클릭 이벤트 */
 	class Listener implements ActionListener{
 		JFrame frame;
-		User user;
 		public Listener(JFrame f) {
 			frame = f;
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(frame, "결제되었습니다!"); 
-		}
+			
+			try {
+				
+				System.out.println(select_time);
+				System.out.println(select_seat);
+				System.out.println(user.getId());
+				
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				String url = "jdbc:mysql://localhost:3306/STUDY_US";
+				String id = "root";
+				String pw = "111111";
+				Connection conn = DriverManager.getConnection(url, id, pw);
+				
+				
+				String sql = "update user set selected_time=?, selected_seat=? where id=?";
+				PreparedStatement pstmt = null;
+
+				pstmt = conn.prepareStatement(sql.toString());
+				pstmt.setString(1, select_time);
+				pstmt.setString(2, select_seat);
+				pstmt.setString(3, user.getId());
+				
+				int cnt = pstmt.executeUpdate();
+				
+				System.out.println(cnt);
+			
+			}catch(Exception ee) {
+				System.out.println("실패");
+			}
+		 }
   }
 	/* 패널에 그림 올리기 클래스 (꽃 이미지) */
    class ImagePanel extends JPanel {

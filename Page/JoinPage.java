@@ -1,5 +1,6 @@
 package Page;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -87,7 +88,16 @@ public class JoinPage extends JFrame {
 	    ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
 	    flower_img_panel.add(flowerimg);
 	         
-		
+	    /* 뒤로 가기 버튼 */
+		   ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
+		   JButton back = new JButton(backImg);
+		   back.setBackground(new Color(215,176,212));
+		   back.setBorderPainted(false); // 버튼 테두리 없애기
+		   back.setPreferredSize(new Dimension(30, 30)); 
+		   back.setBounds(1225, 16, 20, 20);
+		   back.addActionListener(new BackActionListener());
+		   subtitle_panel.add(back);
+	    
 		/* 아이디 입력 */
 	    field_id = new JTextField();
 	    field_id.setBounds(520, 255, 360, 40);
@@ -160,6 +170,7 @@ public class JoinPage extends JFrame {
 		
 	}
 	
+	
    /* 패널에 그림 올리기 클래스 (꽃 이미지) */
    class ImagePanel extends JPanel {
        private Image img;
@@ -174,7 +185,14 @@ public class JoinPage extends JFrame {
            g.drawImage(img, 3, 0, null);
        }
    } 
-	   
+	class BackActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new StartPage(); // StartPage 실행
+            setVisible(false);  // 창 안보이게 하기 
+		}
+		
+	}
 	class Listener implements ActionListener{
 		JFrame frame;
 		public Listener(JFrame f) {
@@ -223,10 +241,11 @@ public class JoinPage extends JFrame {
 						new LoginPage(); // JoinPage 실행 setVisible(false); // 창 안보이게 하기
 						setVisible(false);  // 창 안보이게 하기 
 					
-		
+						
 				}catch(Exception ee) {
 					System.out.println("실패");
 				}
+				
 			}
 		}
 	}

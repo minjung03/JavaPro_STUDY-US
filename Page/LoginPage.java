@@ -27,12 +27,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import Page.JoinPage.BackActionListener;
 import Page.JoinPage.Listener;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
-public class LoginPage  extends JFrame {
+public class LoginPage extends User {
    
+   public static User user;
    private JPanel contentPane, panel, subtitle_panel, flower_img_panel, textID_panel, textPASS_panel;
    private JTextField field_id,  field_pass;
    private JLabel textID, textPASS, title;
@@ -42,7 +44,7 @@ public class LoginPage  extends JFrame {
    Font font_30 = new Font("Cafe24SsurroundAir", Font.PLAIN, 30);
    
    LoginPage(){
-      super("스터디카페 예약 프로그램 [STUDY US]");
+      super("스터디카페 예약 프로그램 [STUDY US]", "","");
       init();
    }
   
@@ -88,6 +90,16 @@ public class LoginPage  extends JFrame {
         
       ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
       flower_img_panel.add(flowerimg);
+      
+      /* 뒤로 가기 버튼 */
+	   ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
+	   JButton back = new JButton(backImg);
+	   back.setBackground(new Color(215,176,212));
+	   back.setBorderPainted(false); // 버튼 테두리 없애기
+	   back.setPreferredSize(new Dimension(30, 30)); 
+	   back.setBounds(1225, 16, 20, 20);
+	   back.addActionListener(new BackActionListener());
+	   subtitle_panel.add(back);
       
       /* 아이디 입력 부분 */
       field_id = new JTextField();
@@ -156,10 +168,18 @@ public class LoginPage  extends JFrame {
        }
    } 
    
+   class BackActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new StartPage(); // StartPage 실행
+           setVisible(false);  // 창 안보이게 하기 
+		}
+		
+	}
+   
    /* 로그인 버튼 클릭 이벤트 */
    class Listener implements ActionListener{
 		JFrame frame;
-		User user;
 		public Listener(JFrame f) {
 			frame = f;
 		}
@@ -197,9 +217,7 @@ public class LoginPage  extends JFrame {
 						String user_pw = rs.getString("pass");
 						
 						if(user_id.equals(login_id) && user_pw.equals(login_pass)) {				
-							//user.setId(user_id);
-							//user.setPass(user_pw);
-							//user.setName(user_name);
+							user = new User(user_name, user_id, user_pw);
 							
 							JOptionPane.showMessageDialog(frame, user_name+"님, 안녕하세요!"); 
 							new SelectTimeTablePage(); // SelectTimeTablePage 실행
