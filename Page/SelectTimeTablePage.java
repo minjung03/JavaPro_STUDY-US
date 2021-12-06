@@ -104,7 +104,6 @@ public class SelectTimeTablePage extends JFrame implements ItemListener {
       timetable_title_text.setBounds(45, 7, 110, 25);
       timetable_title_panel.add(timetable_title_text);
       
-      
       /* 시간제 목록 배경 패널 */
       JPanel timetable_panel = new JPanel();
       timetable_panel.setBackground(Color.WHITE);

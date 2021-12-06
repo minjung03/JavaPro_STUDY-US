@@ -25,7 +25,7 @@ public class TimeTable {
 			sql+="subscribe varchar(10), ";
 			sql+="period varchar(6), ";
 			sql+="price varchar(9),";
-			sql+="time int);";
+			sql+="sec int);";
 			
 			Statement stmt = conn.createStatement(); 
 			

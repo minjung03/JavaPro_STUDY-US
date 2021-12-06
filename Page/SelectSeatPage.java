@@ -1,8 +1,6 @@
 package Page;
 
 import static Page.LoginPage.user;
-import static Page.SelectSeatPage.select_seat;
-import static Page.SelectTimeTablePage.select_time;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -43,7 +41,7 @@ import javax.swing.JTable;
 
 public class SelectSeatPage extends JFrame {
 
-	public static String select_seat;
+	public static String select_seat, room, seatNum;
 	private JPanel contentPane, panel, panel2, seattable_panel, subtitle_panel, flower_img_panel;
 	private JTextField field_pass;
 	private JLabel textID, textPASS, title;
@@ -55,7 +53,7 @@ public class SelectSeatPage extends JFrame {
     Font font_16 = new Font("Cafe24SsurroundAir", Font.BOLD, 16);
     
     String setting_room, setting_seatNum;
-    String room, seatNum, addText;
+    String addText;
    
     String[] num = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"};
 	JButton[] btn_private = new JButton[6];
@@ -187,22 +185,6 @@ public class SelectSeatPage extends JFrame {
 				
 				try {
 					select_seat = room +" "+seatNum+addText;
-					System.out.println(select_seat);
-					
-					System.out.println(select_time);				
-					System.out.println(user.getId());
-					
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					String url = "jdbc:mysql://localhost:3306/STUDY_US";
-					String id = "root";
-					String pw = "111111";
-					Connection conn = DriverManager.getConnection(url, id, pw);
-					
-					Statement stmt = conn.createStatement(); 
-					
-					String sql =  "insert into seat(id, room, seat_num, use_chk) values('"+user.getId()+"', '"+room+"', "+Integer.parseInt(seatNum)+", 'true');"; 
-					
-					stmt.executeUpdate(sql);
 					
 					new SelectionInfo();
 					setVisible(false);  // 창 안보이게 하기 
@@ -287,7 +269,7 @@ public class SelectSeatPage extends JFrame {
 		        	 JButton btn_num = (JButton)e.getSource();
 		        	 String nums = btn_num.getText().substring(0, 2);
 		        	 int seat_num = Integer.parseInt(nums.trim());
-		           	 System.out.println(seat_num);
+		        	 
 		        	 for(int i=0; i<6; i++) {
 		        		 btn_private[i].setBackground(new Color(145,223,144));
 		        		 for(int j=0; j<2; j++) btn_Metting[j].setBackground(new Color(145,223,144));
@@ -352,7 +334,6 @@ public class SelectSeatPage extends JFrame {
 			        	 JButton btn_num = (JButton)e.getSource();
 			        	 String nums = btn_num.getText().substring(0, 2);
 			        	 int seat_num = Integer.parseInt(nums.trim());
-			        	 System.out.println(seat_num);
 			        	 
 			        	 for(int i=0; i<2; i++) {
 			        		 
@@ -391,7 +372,6 @@ public class SelectSeatPage extends JFrame {
 		        	 JButton btn_num = (JButton)e.getSource();
 		        	 String nums = btn_num.getText().substring(0, 2);
 		        	 int seat_num = Integer.parseInt(nums.trim());
-		        	 System.out.println(seat_num);
 		        	
 		        	 for(int i=0; i<18; i++) {
 		        			
@@ -458,7 +438,6 @@ public class SelectSeatPage extends JFrame {
 			while(rs.next()) {
 				setting_room = rs.getString("room");
 				setting_seatNum = rs.getString("seat_num");
-				System.out.println(setting_room + " " + setting_seatNum);
 				
 				switch(setting_room) {
 				case "메인실" : {

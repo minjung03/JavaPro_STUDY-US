@@ -229,8 +229,8 @@ public class JoinPage extends JFrame {
 								JOptionPane.showMessageDialog(frame, "이미 존재하는 아이디 입니다");
 							}
 						}
-						String sql2 =  "insert into user(name, id, pass, time_chk) values('"+join_name+"', '"
-								        +join_id+"', '"+join_pass+"', 'false');"; 
+						String sql2 =  "insert into user(name, id, pass) values('"+join_name+"', '"
+								        +join_id+"', '"+join_pass+"');"; 
 						Statement stmt2 = conn.createStatement();
 						stmt.executeUpdate(sql2);
 								  

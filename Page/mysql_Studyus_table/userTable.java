@@ -21,8 +21,8 @@ public class userTable {
 	         sql+="name varchar(10), ";
 	         sql+="id varchar(20) primary key, ";
 	         sql+="pass varchar(20),";
-	         sql+="time_chk varchar(5),";
 	         sql+="selected_time varchar(20),";
+	         sql+="sec int,";
 	         sql+="selected_seat varchar(20) );";
 			
 			Statement stmt = conn.createStatement(); 
