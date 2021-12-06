@@ -6,7 +6,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +23,7 @@ import javax.swing.border.LineBorder;
 
 public class StartPage extends JFrame {
 
+   public static int pricePage_togle = 1;
    public static long start;
    private JPanel contentPane, main_panel, view_panel, PricePage_panel;
    private JButton btn_login, btn_join;
@@ -31,12 +36,33 @@ public class StartPage extends JFrame {
 
    StartPage() {
       super("스터디카페 예약 프로그램 [STUDY US]");
-      start = System.currentTimeMillis(); //시작하는 시점 계산
       init();
    }
 
    public final void init() {
 
+		/* 시간 가져오기 예제
+		 try {
+	
+	       String dats = "2021/12/06/10/50/00";
+
+	       SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd/hh/mm/ss");
+	       
+	       Date today = new Date();
+		   Date dayss = date.parse(dats);
+		   System.out.println(date.format(today));
+	       
+	       long cnt = today.getTime() - dayss.getTime();
+	       
+	       System.out.println(cnt/1000);
+	       // System.out.println(cnt/1000/60); - 분
+
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	*/
+       
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setResizable(false); // 사이즈 변경 불가능
       setVisible(true); // 보이게 할지 여부
@@ -101,29 +127,30 @@ public class StartPage extends JFrame {
       btn_join.setBackground(new Color(53, 69, 98));
       btn_join.setBounds(717, 460, 105, 33);
       // btn_join.setBounds(850, 501, 97, 28);
+      btn_join.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+             new JoinPage();
+             setVisible(false);  
+          }
+       });
       main_panel.add(btn_join);
 
-      ImageIcon PricePageImg = new ImageIcon("./img/resizequestion-mark.png");
+      /* 이용안내 이미지 & 버튼 */
+      ImageIcon PricePageImg = new ImageIcon("./img/menu_icon.png");
       JButton PricePage = new JButton(PricePageImg);
-      PricePage.setBorderPainted(false); // 버튼 테두리 설정해제
-      PricePage.setBounds(1165, 45, 60, 60);
-      PricePage.setPreferredSize(new Dimension(60, 60)); // 버튼 크기 지정
+      PricePage.setBorderPainted(false);
+      PricePage.setBounds(1170, 30, 60, 60); 
+      PricePage.setPreferredSize(new Dimension(60, 60));
       PricePage.setContentAreaFilled(false);
       main_panel.add(PricePage);
-
+     
       PricePage.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            new PricePage();
-            setVisible(false);
-         }
-      });
-
-      btn_join.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            new JoinPage();
-            setVisible(false);
-         }
-      });
+          public void actionPerformed(ActionEvent e) {
+        	  pricePage_togle = 2;
+             new PricePage();
+             setVisible(false);  
+          }
+       });
    }
 
    public static void main(String[] args) {

@@ -1,6 +1,9 @@
 package Page;
 
+import static Page.LoginPage.user;
+
 import static Page.SelectSeatPage.select_seat;
+//import static Page2.SelectTimeTablePage.select_time;
 import static Page.SelectTimeTablePage.select_time;
 
 import java.awt.BorderLayout;
@@ -13,10 +16,13 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,243 +34,388 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-//순번 auto_incremet그거 넣으면 훨씬 조을듯 or for문 i돌려서 찍던지!!
+import Page.LoginPage.Listener;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+
 public class MyPage extends JFrame {
-	private Connection con;
-	private Statement stmt;
-	private ResultSet rs;
-	private ResultSet rs2;
+   private Connection con;
+   private Statement stmt;
+   private ResultSet rs;
+   String setName, setSeat;
 
-	JPanel contentPane, panel, subtitle_panel, result_panel, inlist_title_panel;
-	JLabel title, inlist_title_text;
 
-	public MyPage() {
-		super("스터디카페 예약 프로그램 [STUDY US]");
-		init();
+   JPanel contentPane, panel, subtitle_panel, result_panel, inlist_title_panel;
+   JLabel title, inlist_title_text;
+   String user_date, Remaining_time;
+   int user_sec;
 
-	}
+   public MyPage() {
+      super("스터디카페 예약 프로그램 [STUDY US]");
+      init();
+   }
+   public final void init() {
+	   
+	   try {
+	         
+	         Class.forName("com.mysql.cj.jdbc.Driver");
+	         String url = "jdbc:mysql://localhost:3306/STUDY_US";
+	         String id = "root";
+	         String pw = "111111";
+	         con = DriverManager.getConnection(url, id, pw);
 
-	public final void init() {
+	         stmt = con.createStatement();
+	         System.out.println();
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false); // 사이즈 변경 불가능
-		setVisible(true); // 보이게 할지 여부
-		setBounds(100, 100, 1300, 800);
-
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-
-		panel = new JPanel(); // 전체 패널
-		panel.setBackground(Color.WHITE);
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-
-		subtitle_panel = new JPanel();
-		subtitle_panel.setLayout(null);
-		subtitle_panel.setForeground(Color.white);
-		subtitle_panel.setBorder(new LineBorder(new Color(211, 183, 219), 30, true));
-		subtitle_panel.setBounds(0, 0, 1273, 52);
-		panel.add(subtitle_panel);
-
-		title = new JLabel("STUDY US");
-		title.setForeground(new Color(255, 255, 255));
-		title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-		title.setBounds(22, 6, 440, 42);
-		subtitle_panel.add(title);
-
-		/* 내 정보 제목 & 패널 */
-		JPanel User_title_panel = new JPanel();
-		User_title_panel.setBounds(101, 80, 196, 39);
-		User_title_panel.setLayout(null);
-		User_title_panel.setBorder(new LineBorder(new Color(127, 114, 165), 30, true));
-		panel.add(User_title_panel);
-
-		JLabel User_title_text = new JLabel("내 정보");
-		User_title_text.setFont(new Font("굴림", Font.PLAIN, 20));
-		User_title_text.setHorizontalAlignment(SwingConstants.CENTER);
-		User_title_text.setForeground(Color.WHITE);
-		User_title_text.setBounds(26, 7, 139, 25);
-		User_title_panel.add(User_title_text);
-
-		/* 패널 테두리 */
-		JPanel User_panel = new JPanel();
-		User_panel.setBackground(Color.WHITE);
-		User_panel.setBorder(new LineBorder(new Color(127, 114, 165), 1, true));
-		User_panel.setBounds(72, 96, 1109, 590);
-		panel.add(User_panel);
-		User_panel.setLayout(null);
-
-		JPanel User_img_panel = new JPanel();
-		User_img_panel.setBounds(404, 137, 80, 80);
-		User_img_panel.setBackground(Color.white);
-		User_panel.add(User_img_panel);
-
-		/* 선택한 시간제 출력 */
-		JPanel SelTime_panel = new JPanel();
-		SelTime_panel.setBorder(new LineBorder(new Color(255, 223, 132), 30, true));
-		SelTime_panel.setBackground(Color.WHITE);
-		SelTime_panel.setBounds(365, 273, 153, 33);
-		User_panel.add(SelTime_panel);
-		SelTime_panel.setLayout(null);
-
-		JLabel Seltime_text = new JLabel("선택한 시간제");
-		Seltime_text.setForeground(Color.WHITE);
-		Seltime_text.setBounds(3, 10, 146, 17);
-		SelTime_panel.add(Seltime_text);
-		Seltime_text.setHorizontalAlignment(SwingConstants.CENTER);
-		Seltime_text.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 14));
-
-		JLabel SetSeltime_label = new JLabel(select_time);
-		SetSeltime_label.setHorizontalAlignment(SwingConstants.LEFT);
-		SetSeltime_label.setFont(new Font("나눔고딕 ExtraBold", Font.PLAIN, 20));
-		SetSeltime_label.setBackground(Color.YELLOW);
-		SetSeltime_label.setBounds(513, 273, 274, 33);
-		User_panel.add(SetSeltime_label);
-
-		/* 선택한 좌석 출력 */
-		JPanel SelSeat_panel = new JPanel();
-		SelSeat_panel.setBorder(new LineBorder(new Color(240, 128, 128), 30, true));
-		SelSeat_panel.setBackground(Color.WHITE);
-		SelSeat_panel.setBounds(365, 340, 153, 33);
-		User_panel.add(SelSeat_panel);
-		SelSeat_panel.setLayout(null);
-
-		JLabel SelSeat_text = new JLabel("선택한 좌석");
-		SelSeat_text.setHorizontalAlignment(SwingConstants.CENTER);
-		SelSeat_text.setForeground(Color.WHITE);
-		SelSeat_text.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 14));
-		SelSeat_text.setBounds(3, 9, 146, 17);
-		SelSeat_panel.add(SelSeat_text);
-
-		JLabel SelSeat_label = new JLabel(select_seat);
-		SelSeat_label.setHorizontalAlignment(SwingConstants.LEFT);
-		SelSeat_label.setFont(new Font("나눔고딕 ExtraBold", Font.PLAIN, 20));
-		SelSeat_label.setBackground(Color.YELLOW);
-		SelSeat_label.setBounds(513, 340, 274, 33);
-		User_panel.add(SelSeat_label);
-
-		/* 주의사항 */
-
-		JLabel caution1 = new JLabel("스터디카페이므로 정숙해주세요.");
-		caution1.setHorizontalAlignment(JLabel.CENTER);
-		caution1.setFont(new Font("굴림", Font.PLAIN, 15));
-		caution1.setForeground(Color.GRAY);
-		caution1.setBounds(7, 489, 242, 31);
-		User_panel.add(caution1);
-
-		JLabel caution2 = new JLabel("실내에서는 조용히 ! 노트북 자판 소리 주의 ! 핸드폰 무음은 필수 !");
-		caution2.setHorizontalAlignment(SwingConstants.CENTER);
-		caution2.setForeground(Color.GRAY);
-		caution2.setFont(new Font("굴림", Font.PLAIN, 15));
-		caution2.setBounds(7, 528, 454, 31);
-		User_panel.add(caution2);
-
-		// 패널에 그림을 올려주는 클래스
-		class ImagePanel extends JPanel {
-			private Image img;
-
-			public ImagePanel(Image img) {
-				this.img = img;
-				setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-				setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-				setLayout(null);
+	         String sql = "select name, selected_time, selected_seat  from user where id='" + user.getId() + "'";
+	         rs = stmt.executeQuery(sql);
+	         
+	     	while(rs.next()) {
+	     		setName = rs.getString("name");
+	     		setSeat = rs.getString("selected_seat");
+	     		break;
 			}
+	        rs.close();
+	        stmt.close();
+	        con.close();
 
-			public void paintComponent(Graphics g) {
-				g.drawImage(img, 3, 0, null);
-			}
-		}
-		JPanel flower_img_panel = new JPanel();
-		flower_img_panel.setBounds(130, 12, 40, 30);
-		subtitle_panel.add(flower_img_panel);
-		flower_img_panel.setLayout(null);
+	      } catch (Exception ee) {
+	         System.out.println("실패");
+	      }
+	   
 
-		ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
-		flower_img_panel.add(flowerimg);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setResizable(false); // 사이즈 변경 불가능
+      setVisible(true); // 보이게 할지 여부
+      setBounds(100, 100, 1300, 800);
 
-		ImagePanel userimg = new ImagePanel(new ImageIcon("./img/resizeuser.png").getImage());
-		User_img_panel.add(userimg);
+      contentPane = new JPanel();
+      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+      contentPane.setLayout(new BorderLayout(0, 0));
+      setContentPane(contentPane);
 
-		/* 뒤로 가기 버튼 */
-		ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
-		JButton back = new JButton(backImg);
-		back.setContentAreaFilled(false);
-		back.setBorderPainted(false); // 버튼 테두리 설정해제
-		back.setPreferredSize(new Dimension(30, 30)); // 버튼 크기 지정
-		back.setBounds(1225, 16, 20, 20);
-		subtitle_panel.add(back);
+      panel = new JPanel(); // 전체 패널
+      panel.setBackground(Color.WHITE);
+      contentPane.add(panel, BorderLayout.CENTER);
+      panel.setLayout(null);
 
-		try {
+      subtitle_panel = new JPanel();
+      subtitle_panel.setLayout(null);
+      subtitle_panel.setForeground(Color.white);
+      subtitle_panel.setBorder(new LineBorder(new Color(211, 183, 219), 30, true));
+      subtitle_panel.setBounds(0, 0, 1273, 52);
+      panel.add(subtitle_panel);
 
+      title = new JLabel("STUDY US");
+      title.setForeground(new Color(255, 255, 255));
+      title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+      title.setBounds(22, 6, 440, 42);
+      subtitle_panel.add(title);
+
+      /* 내 정보 제목 & 패널 */
+      JPanel User_title_panel = new JPanel();
+      User_title_panel.setBounds(101, 80, 196, 39);
+      User_title_panel.setLayout(null);
+      User_title_panel.setBorder(new LineBorder(new Color(127, 114, 165), 30, true));
+      panel.add(User_title_panel);
+
+      JLabel User_title_text = new JLabel("내 정보");
+      User_title_text.setFont(new Font("굴림", Font.PLAIN, 20));
+      User_title_text.setHorizontalAlignment(SwingConstants.CENTER);
+      User_title_text.setForeground(Color.WHITE);
+      User_title_text.setBounds(26, 7, 139, 25);
+      User_title_panel.add(User_title_text);
+
+      /* 패널 테두리 */
+      JPanel User_panel = new JPanel();
+      User_panel.setBackground(Color.WHITE);
+      User_panel.setBorder(new LineBorder(new Color(127, 114, 165), 1, true));
+      User_panel.setBounds(72, 96, 1109, 590);
+      panel.add(User_panel);
+      User_panel.setLayout(null);
+
+      /* 유저 아이콘 이미지 패널 */
+      JPanel User_img_panel = new JPanel();
+      User_img_panel.setBounds(404, 82, 80, 80);
+      User_img_panel.setBackground(Color.white);
+      User_panel.add(User_img_panel);
+
+      JLabel user_greeting = new JLabel("안녕하세요");
+      user_greeting.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+      user_greeting.setBounds(493, 101, 134, 35);
+      User_panel.add(user_greeting);
+
+      JLabel username = new JLabel(setName);
+      username.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
+      username.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 32));
+      username.setBounds(450, 130, 179, 35);
+      User_panel.add(username);
+
+      JLabel username2 = new JLabel("     님");
+      username2.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
+      username2.setFont(new Font("굴림", Font.PLAIN, 20));
+      username2.setBounds(500, 135, 179, 35);
+      User_panel.add(username2);
+
+      /* 퇴실 버튼 */
+      JButton btn_chkout = new JButton("퇴실");
+      btn_chkout.setForeground(Color.WHITE);
+      btn_chkout.setFont(new Font("Dialog", Font.BOLD, 14));
+      btn_chkout.setBorderPainted(false);	//테두리 없애기
+      btn_chkout.setBackground(new Color(150, 195, 128));
+      btn_chkout.setBounds(629, 140, 90, 27);
+      User_panel.add(btn_chkout);
+      
+      btn_chkout.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+             new StartPage(); // JoinPage 실행
+             setVisible(false); // 창 안보이게 하기
+          }   
+       });
+
+      /* 위 패널바 */
+      JPanel Selbar_panel = new JPanel();
+      Selbar_panel.setBackground(new Color(223,223,223));
+      Selbar_panel.setBounds(207, 190, 700, 1);
+      User_panel.add(Selbar_panel);
+      Selbar_panel.setLayout(null);
+
+      JLabel selected_seat = new JLabel("선택하신 좌석");
+      selected_seat.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+      selected_seat.setBounds(355, 205, 120, 18);
+      User_panel.add(selected_seat);
+      
+      
+      JLabel Selseat_label = new JLabel(setSeat);
+      Selseat_label.setHorizontalAlignment(SwingConstants.LEFT);
+      Selseat_label.setFont(new Font("나눔고딕 ExtraBold", Font.PLAIN, 17));
+      Selseat_label.setBackground(Color.YELLOW);
+      Selseat_label.setBounds(350, 279, 150, 15);
+      User_panel.add(Selseat_label);
+		
+      JLabel remaining_time = new JLabel("남은 시간");
+      remaining_time.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+      remaining_time.setBounds(648, 205, 120, 18);
+      User_panel.add(remaining_time);
+      
+      try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/STUDY_US";
 			String id = "root";
 			String pw = "111111";
 			Connection conn = DriverManager.getConnection(url, id, pw);
 
-			String sql = "SELECT name, id, pass FROM user"; // ?
+			String sql = "SELECT sec, end_date FROM user where id='"+user.getId()+"'";
 
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql); // 결과를 담을 ResultSet 생성 후 결과 담기
-
-			while (rs.next()) {
-				String user_name = rs.getString("name");
-				String user_id = rs.getString("id");
-				String user_pw = rs.getString("pass");
-
-				JLabel username = new JLabel(user_name);
-				username.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
-				username.setFont(new Font("굴림", Font.PLAIN, 30));
-				username.setBounds(450, 190, 179, 35);
-				User_panel.add(username);
-
-				JLabel username2 = new JLabel("님");
-				username2.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
-				username2.setFont(new Font("굴림", Font.PLAIN, 20));
-				username2.setBounds(500, 190, 179, 35);
-				User_panel.add(username2);
+			Statement stmt = conn.createStatement(); 
+			ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
+			
+			while(rs.next()) {
+				user_date = rs.getString("end_date");
+				user_sec = rs.getInt("sec");
+				break;
 			}
-//          int rowcount = 0;
-//          int height_Default = 80;   //top여백
-//          int index = 0;
-//          
-//          rs2 = stmt.executeQuery("SELECT COUNT(*) FROM user");
-//          if (rs2.next())
-//             rowcount = rs2.getInt(1);
-//          rs2.close();
-//          
-//          JLabel userList[] = new JLabel[rowcount];
-//          for(int i = 0; i<rowcount; i++) {
-//            userList[i] = new JLabel();
-//             userList[i].setFont(new Font("굴림", Font.PLAIN, 20));
-//             userList[i].setBounds(65, height_Default, 500, 100);
-//             height_Default += 30;
-//             list_panel.add(userList[i]);
-//          }
-//          System.out.println(String.valueOf(rowcount));
-//
-//          rs = stmt.executeQuery("select name from user"); // 조회한 결과들을 ResultSet에 rs에 저장한다.
-//          System.out.println("== mypage 리스트==");
-//          while (rs.next()) { 
-//            System.out.println(rs.getString(1));
-//            System.out.println(index); 
-//            userList[index].setText(rs.getString(1));
-//             list_panel.add(userList[index]);
-//             index++;
-//          }
-//          rs.close();
-//          stmt.close();
-//          con.close(); 
-
-		} catch (SQLException e) {
-			System.out.println("DB연결 실패하거나, SQL문이 틀렸습니다.");
-			System.out.print("사유 : " + e.getMessage());
+	       
+	       /* 마지막으로 껐던 시간과 다시 접속한 시간 차이 구하기 */
+	       SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd/hh/mm/ss");
+	       Date today = new Date();
+	       today = date.parse(date.format(today));
+	       Date user_day = date.parse(user_date);
+	       
+	       System.out.println(today);
+		   System.out.println(user_day);
+	       
+	       int time_term_sec = (int) (user_sec - ((today.getTime() - user_day.getTime())/1000));
+	       
+	       int hour = time_term_sec/60/60;
+	       int minute = (time_term_sec/60) - (hour*60);
+	       Remaining_time = hour+"시간 "+minute+"분";
+	       System.out.println(Remaining_time);
+	       
+	       conn.close();
+			
+		}catch(Exception ee) {
+			System.out.println("실패");
 		}
+      
+      JLabel T_remaining_label = new JLabel(Remaining_time);
+      T_remaining_label.setHorizontalAlignment(SwingConstants.LEFT);
+      T_remaining_label.setFont(new Font("나눔고딕 ExtraBold", Font.PLAIN, 20));
+      T_remaining_label.setBackground(Color.YELLOW);
+      T_remaining_label.setBounds(632, 279, 150, 20);
+      User_panel.add(T_remaining_label);
 
-	}
+      /* 아래 패널바 */
+      JPanel Selbar_panel2 = new JPanel();
+      Selbar_panel2.setLayout(null);
+      Selbar_panel2.setBackground(new Color(223,223,223));
+      Selbar_panel2.setBounds(207, 240, 700, 1);
+      User_panel.add(Selbar_panel2);
 
-	public static void main(String[] args) {
-		new MyPage();
+
+      /* 주의사항 */
+      JPanel Cautionbar_panel = new JPanel();
+      Cautionbar_panel.setLayout(null);
+      Cautionbar_panel.setBackground(new Color(223,223,223));
+      Cautionbar_panel.setBounds(0, 405, 1109, 1);
+      User_panel.add(Cautionbar_panel);
+
+      JLabel caution_title = new JLabel("STUDY US 이용 시 유의사항");
+      caution_title.setHorizontalAlignment(SwingConstants.CENTER);
+      caution_title.setForeground(Color.GRAY);
+      caution_title.setFont(new Font("굴림", Font.BOLD, 15));
+      caution_title.setBounds(13, 430, 224, 18);
+      User_panel.add(caution_title);
+
+      JLabel caution1 = new JLabel("호실 안에서는 정숙해주세요");
+      caution1.setHorizontalAlignment(SwingConstants.CENTER);
+      caution1.setForeground(Color.GRAY);
+      caution1.setFont(new Font("굴림", Font.PLAIN, 11));
+      caution1.setBounds(23, 447, 179, 18);
+
+      JLabel caution2 = new JLabel("입장 전, 휴대폰은 ‘무음 or 진동’으로 바꿔주시고 통화와 대화는 삼가주세요");
+      caution2.setHorizontalAlignment(SwingConstants.CENTER);
+      caution2.setForeground(Color.GRAY);
+      caution2.setFont(new Font("굴림", Font.PLAIN, 11));
+      caution2.setBounds(34, 459, 396, 18);
+      User_panel.add(caution2);
+
+      JLabel caution3 = new JLabel("퇴실 시에는 꼭 퇴실 처리를 해주세요");
+      caution3.setHorizontalAlignment(SwingConstants.CENTER);
+      caution3.setForeground(Color.GRAY);
+      caution3.setFont(new Font("굴림", Font.PLAIN, 11));
+      caution3.setBounds(12, 481, 246, 18);
+      User_panel.add(caution3);
+
+      JLabel caution4 = new JLabel("시간을 정확히 지켜주시길 바랍니다");
+      caution4.setHorizontalAlignment(SwingConstants.CENTER);
+      caution4.setForeground(Color.GRAY);
+      caution4.setFont(new Font("굴림", Font.PLAIN, 11));
+      caution4.setBounds(27, 503, 209, 18);
+      User_panel.add(caution4);
+
+      JLabel caution5 = new JLabel("위생과 청결을 위해 외부 음식물의 반입/섭취는 삼가주세요");
+      caution5.setHorizontalAlignment(SwingConstants.CENTER);
+      caution5.setForeground(Color.GRAY);
+      caution5.setFont(new Font("굴림", Font.PLAIN, 11));
+      caution5.setBounds(31, 525, 319, 18);
+      User_panel.add(caution5);
+
+      JLabel caution6 = new JLabel("노트북 사용 시에는 키보드 커버를 꼭 사용해주세요");
+      caution6.setHorizontalAlignment(SwingConstants.CENTER);
+      caution6.setForeground(Color.GRAY);
+      caution6.setFont(new Font("굴림", Font.PLAIN, 11));
+      caution6.setBounds(40, 547, 259, 18);
+      User_panel.add(caution6);
+
+      /* 회원 탈퇴 버튼 */
+      JButton btn_withdrawal = new JButton("회원 탈퇴");
+      btn_withdrawal.setForeground(Color.WHITE);
+      btn_withdrawal.setBorderPainted(false);	//테두리 없애기
+      btn_withdrawal.setFont(new Font("Dialog", Font.BOLD, 14));
+      btn_withdrawal.setBackground(new Color(209, 99, 99));
+      btn_withdrawal.setBounds(950, 530, 123, 33);
+      btn_withdrawal.addActionListener(new Listener(this));
+      User_panel.add(btn_withdrawal);
+
+      // 패널에 그림을 올려주는 클래스
+      class ImagePanel extends JPanel {
+         private Image img;
+
+         public ImagePanel(Image img) {
+            this.img = img;
+            setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+            setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+            setLayout(null);
+         }
+
+         public void paintComponent(Graphics g) {
+            g.drawImage(img, 3, 0, null);
+         }
+      }
+      JPanel flower_img_panel = new JPanel();
+      flower_img_panel.setBounds(130, 12, 40, 30);
+      subtitle_panel.add(flower_img_panel);
+      flower_img_panel.setLayout(null);
+
+      ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+      flower_img_panel.add(flowerimg);
+
+      ImagePanel userimg = new ImagePanel(new ImageIcon("./img/my_icon.png").getImage());
+      User_img_panel.add(userimg);
+
+      /* 뒤로 가기 버튼 */
+      ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
+      JButton back = new JButton(backImg);
+      back.setContentAreaFilled(false);
+      back.setBorderPainted(false); // 버튼 테두리 설정해제
+      back.setPreferredSize(new Dimension(30, 30)); // 버튼 크기 지정
+      back.setBounds(1225, 16, 20, 20);
+      back.addActionListener(new BackActionListener());
+      subtitle_panel.add(back);
+
+   }
+
+   class BackActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new StartPage(); // StartPage 실행
+           setVisible(false);  // 창 안보이게 하기 
+		}
+		
 	}
+   
+   /* 탈퇴 버튼 클릭 이벤트 */
+   class Listener implements ActionListener{
+
+		JFrame frame;
+		public Listener(JFrame f) {
+			frame = f;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				String url = "jdbc:mysql://localhost:3306/STUDY_US";
+				String id = "root";
+				String pw = "111111";
+				Connection conn = DriverManager.getConnection(url, id, pw);
+				
+
+				String sql = "delete from user where id=?";
+				
+				PreparedStatement pstmt = null;
+				pstmt = conn.prepareStatement(sql.toString()); // sql문 전달
+			    pstmt.setString(1, user.getId());
+				int cnt = pstmt.executeUpdate();
+				System.out.println(cnt);
+			
+			    
+				String sql2 = "delete from seat where id=?";
+
+				PreparedStatement pstmt2 = null;
+				pstmt2 = conn.prepareStatement(sql2.toString());// sql문 전달
+				pstmt2.setString(1, user.getId());
+				int cnt2= pstmt2.executeUpdate();
+				System.out.println(cnt2);
+				
+				conn.close();
+				
+				JOptionPane.showMessageDialog(frame, "탈퇴되었습니다");
+				
+				new StartPage();
+				setVisible(false);  // 창 안보이게 하기 
+			    
+				 
+			}catch(Exception ee) {
+				System.out.println("실패");
+			}
+		};
+		
+   }
+   public static void main(String[] args) {
+      new MyPage();
+   }
 }

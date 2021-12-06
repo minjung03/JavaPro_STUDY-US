@@ -19,8 +19,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -60,8 +64,8 @@ public class SelectionInfo extends JFrame  implements Runnable{
    SelectionInfo(){
       super("스터디카페 예약 프로그램 [STUDY US]");
       init();
-      long end = System.currentTimeMillis(); //프로그램이 끝나는 시점 계산
-      System.out.println( "실행 시간 : " + ( end - start )/1000.0 +"초"); //실행 시간 계산 및 출력
+     
+      
 //      Calendar cal = Calendar.getInstance();
 //        
 //        
@@ -84,6 +88,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
    
    public final void init() {
    
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
          setResizable(false); //사이즈 변경 불가능
          setVisible(true); //보이게 할지 여부
@@ -209,15 +214,14 @@ public class SelectionInfo extends JFrame  implements Runnable{
          btn_cancel.setBounds(690, 400, 105, 33);
          btn_cancel.setBorderPainted(false);   
          btn_cancel.setBackground(new Color(53,69,98));
-        SelInfo_panel.add(btn_cancel);
-        
-        btn_cancel.addActionListener(new ActionListener() {
+         btn_cancel.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e) {
-                new StartPage();
-                setVisible(false);  
+                new StartPage(); // LoginPage 실행
+                setVisible(false); // 창 안보이게 하기
              }
           });
-            
+        SelInfo_panel.add(btn_cancel);
+        
    }   
    /* 결제 버튼 클릭 이벤트 */
 	class Listener implements ActionListener{
@@ -232,7 +236,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
 		public void actionPerformed(ActionEvent e) {
 		
 			try {
-
+				
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				String url = "jdbc:mysql://localhost:3306/STUDY_US";
 				String id = "root";
@@ -242,7 +246,6 @@ public class SelectionInfo extends JFrame  implements Runnable{
 				Statement stmt = conn.createStatement(); 
 				String sql1 =  "insert into seat(id, room, seat_num, use_chk) values('"+user.getId()+"', '"+room+"', "+Integer.parseInt(seatNum)+", 'true');"; 
 				stmt.executeUpdate(sql1);
-				
 		
 				String sql2 = "SELECT * FROM time WHERE period= '"+select_time+"'";
 				Statement stmt2 = conn.createStatement(); 
@@ -253,18 +256,24 @@ public class SelectionInfo extends JFrame  implements Runnable{
 					break;
 				}
 				
-				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?  where id=?";
+				SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd/hh/mm/ss");
+			    Date today = new Date();
+				System.out.println(date.format(today));
+				   
+				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?, end_date=? where id=?";
 				PreparedStatement pstmt = null;
 				
 				pstmt = conn.prepareStatement(sql3.toString());
 				pstmt.setString(1, select_time);
 				pstmt.setInt(2, sec);
 				pstmt.setString(3, select_seat);
-				pstmt.setString(4, user.getId());
+				pstmt.setString(4, date.format(today));
+				pstmt.setString(5, user.getId());
 				
 				int cnt = pstmt.executeUpdate();
-				
 				conn.close();
+				
+				JOptionPane.showMessageDialog(frame, "결제되었습니다"); 	
 				
 				new MyPage();
 				setVisible(false);

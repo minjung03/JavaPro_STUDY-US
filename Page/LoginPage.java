@@ -1,5 +1,7 @@
 package Page;
 
+import static Page.LoginPage.user;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -13,9 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +44,8 @@ public class LoginPage extends User {
    private JTextField field_id,  field_pass;
    private JLabel textID, textPASS, title;
    private JButton btn_Login;
+   String user_date ="";
+   int user_select_sec;
    
    Font font_12 = new Font("Cafe24SsurroundAir", Font.BOLD, 12); 
    Font font_30 = new Font("Cafe24SsurroundAir", Font.PLAIN, 30);
@@ -150,7 +157,90 @@ public class LoginPage extends User {
       btn_Login.setBackground(new Color(53,69,98));       
       btn_Login.addActionListener(new Listener(this));
       panel.add(btn_Login);  
-         
+      
+   }
+   
+   public boolean ChkTimeOver() {
+	   String login_id = field_id.getText();
+	   try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/STUDY_US";
+			String id = "root";
+			String pw = "111111";
+			Connection conn = DriverManager.getConnection(url, id, pw);
+
+			String sql = "SELECT * FROM user where id='"+login_id+"'";
+
+			Statement stmt = conn.createStatement(); 
+			ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
+			
+			while(rs.next()) {
+				user_date = rs.getString("end_date");
+				break;
+			}
+	       
+	       /* 마지막으로 껐던 시간과 다시 접속한 시간 차이 구하기 */
+	       SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd/hh/mm/ss");
+	       Date today = new Date();
+	       today = date.parse(date.format(today));
+	       Date user_day = date.parse(user_date);
+	       
+	       System.out.println(today);
+		   System.out.println(user_day);
+	       
+	       int time_term = (int) ((today.getTime() - user_day.getTime())/1000);
+	       System.out.println(time_term);
+	       
+	       
+	       /* 구한 시간이 선택한 시간(초)를 넘었는지 체크 */
+	       String sql2 = "SELECT sec FROM user where id='"+login_id+"'";
+
+			Statement stmt2 = conn.createStatement(); 
+			ResultSet rs2 = stmt2.executeQuery(sql2); //결과를 담을 ResultSet 생성 후 결과 담기
+			
+			while(rs2.next()) {
+				user_select_sec = rs.getInt("sec");
+				break;
+			}
+			System.out.println(user_select_sec);
+			
+	       /* 선택한 시간이 전부 끝났다면 */
+			if(user_select_sec > time_term) {
+				System.out.println("시간 아직 중");
+				return false;
+				 
+			}
+			else {
+				System.out.println("시간을 전부 이용하셨습니다");	
+				
+				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?, end_date=? where id=?";
+				 PreparedStatement pstmts = null;
+				 
+				 pstmts = conn.prepareStatement(sql3.toString());
+				 pstmts.setString(1, "");
+			 	 pstmts.setInt(2, 0);
+			 	 pstmts.setString(3, "");
+			 	 pstmts.setString(4, "");
+			 	 pstmts.setString(5, user.getId());
+				 
+				 System.out.println("시간을 전부 이용하셨습니다");
+				 int cnts = pstmts.executeUpdate();
+					
+				 String sql4 = "delete from seat where id = '"+user.getId()+"'";
+				 Statement stmt4 = conn.createStatement(); 
+				 stmt.execute(sql4);
+				 
+				 System.out.println("성공");
+				 
+			}
+	       // conn.close();
+			
+		}catch(Exception ee) {
+			System.out.println("실패");
+		}
+
+		return true;
+	   
    }
    
    /* 패널에 그림 올리기 클래스 (꽃 이미지) */
@@ -179,13 +269,15 @@ public class LoginPage extends User {
    
    /* 로그인 버튼 클릭 이벤트 */
    class Listener implements ActionListener{
+	   
+	   
 		JFrame frame;
 		public Listener(JFrame f) {
 			frame = f;
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+		
 			boolean togle = false;
 			String login_id = field_id.getText();
 			String login_pass = field_pass.getText();
@@ -216,13 +308,23 @@ public class LoginPage extends User {
 						String user_id = rs.getString("id");
 						String user_pw = rs.getString("pass");
 						
-						if(user_id.equals(login_id) && user_pw.equals(login_pass)) {				
-							user = new User(user_name, user_id, user_pw);
+						if(user_id.equals(login_id) && user_pw.equals(login_pass)) {	
 							
+							user = new User(user_name, user_id, user_pw);
 							JOptionPane.showMessageDialog(frame, user_name+"님, 안녕하세요!"); 
-							new SelectTimeTablePage(); // SelectTimeTablePage 실행
-				            setVisible(false);  // 창 안보이게 하기 
-				            togle = true;
+							
+							if(ChkTimeOver() == true) {
+								new SelectTimeTablePage(); // SelectTimeTablePage 실행
+					            setVisible(false);  // 창 안보이게 하기 
+					            togle = true;
+							}
+							else {
+								new MyPage(); 
+					            setVisible(false);  // 창 안보이게 하기 
+					            togle = true;
+							}
+							
+							
 						}
 					}
 					if(!togle) JOptionPane.showMessageDialog(frame, "아이디 혹은 비밀번호가 맞지 않습니다"); 					

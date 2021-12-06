@@ -1,8 +1,12 @@
 package mysql_Studyus_table;
-import java.sql.*;
 
-public class userTable {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+public class TimeTable {
+	
 	public static void main(String[] args) {
 		try {
 			// Class.forName("org.git.mm.mysql.Driver");// 1. jdbc 드라이브 연결
@@ -12,18 +16,16 @@ public class userTable {
 			String url = "jdbc:mysql://localhost:3306/STUDY_US";
 			String id = "root";
 			String pw = "111111";
+		
 	
 			Connection conn = DriverManager.getConnection(url, id, pw);
 			System.out.println("DB 연결성공");
 
-			 String sql = "CREATE TABLE USER(";
-	         sql+="name varchar(10), ";
-	         sql+="id varchar(20) primary key, ";
-	         sql+="pass varchar(20),";
-	         sql+="selected_time varchar(20),";
-	         sql+="sec int,";
-	         sql+="selected_seat varchar(20),";
-	         sql+="end_date varchar(20));";
+			String sql = "CREATE TABLE Time(";
+			sql+="subscribe varchar(10), ";
+			sql+="period varchar(6), ";
+			sql+="price varchar(9),";
+			sql+="sec int);";
 			
 			Statement stmt = conn.createStatement(); 
 			
@@ -44,4 +46,3 @@ public class userTable {
 		}
 	}
 }
-

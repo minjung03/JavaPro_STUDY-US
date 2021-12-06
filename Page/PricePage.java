@@ -1,5 +1,6 @@
 package Page;
 
+import static Page.StartPage.pricePage_togle;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -296,7 +297,6 @@ public class PricePage extends JFrame {
        coupon4_hours_text[2].setBounds(46, 6, 51, 20);
        coupon4_hours_text[3].setBounds(54, 6, 51, 20);
       
-       
       
 	  /* 룸 안내 표 패널 & 제목 */
       JPanel roomtitle_panel = new JPanel(); 
@@ -385,8 +385,19 @@ public class PricePage extends JFrame {
    class Listener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new SelectTimeTablePage(); // SelectTimeTablePage 실행
-            setVisible(false);  // 창 안보이게 하기 
+			switch(pricePage_togle) {
+				case 1:{
+					new SelectTimeTablePage(); // SelectTimeTablePage 실행
+		            setVisible(false);  // 창 안보이게 하기 
+		            break;
+				}
+				case 2:	{
+					new StartPage(); // SelectTimeTablePage 실행
+		            setVisible(false);  // 창 안보이게 하기 
+		            break;
+				}
+			}
+			
 		}
    }
    
