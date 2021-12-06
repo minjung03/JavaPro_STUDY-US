@@ -277,7 +277,6 @@ public class SelectSeatPage extends JFrame {
 			}
 			else if(i==5) {
 				btn_private[i].setBounds(682, 431, 82, 84);
-     	        
 			}
 	        seattable_panel.add(btn_private[i]);
 	        
