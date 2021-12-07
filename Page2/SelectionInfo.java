@@ -1,5 +1,6 @@
 package Page2;
 
+import static Page2.LoginPage.user;
 
 import static Page2.SelectSeatPage.select_seat;
 import static Page2.SelectTimeTablePage.select_time;
@@ -11,6 +12,12 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,18 +34,20 @@ import Page2.JoinPage;
 import Page2.LoginPage;
 import Page2.StartPage;
 import Page2.LoginPage.ImagePanel;
+import Page2.LoginPage.Listener;
 
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JTextPane;
 
-public class SelectionInfo extends JFrame {
+public class SelectionInfo extends JFrame  {
 
    private JPanel contentPane, panel, subtitle_panel, flower_img_panel, textID_panel, textPASS_panel;
    private JTextField field_id,  field_pass;
    private JLabel textID, textPASS, title;
    private JButton btn_Login;
+   private Thread thread;
    String select_num;
 	
    Font font_12 = new Font("Cafe24SsurroundAir", Font.BOLD, 12); 
@@ -48,11 +57,11 @@ public class SelectionInfo extends JFrame {
 	SelectionInfo(){
 		super("스터디카페 예약 프로그램 [STUDY US]");
 		init();
-	}
+		}
 	
 	public final void init() {
 	
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
+		  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
 	      setResizable(false); //사이즈 변경 불가능
 	      setVisible(true); //보이게 할지 여부
 	      setBounds(100, 100, 1300, 800);
@@ -170,6 +179,7 @@ public class SelectionInfo extends JFrame {
 	     btn_sumit.setBorderPainted(false);
 	     btn_sumit.setBackground(new Color(53,69,98));
 	     SelInfo_panel.add(btn_sumit);
+	     btn_sumit.addActionListener(new Listener(this));
 	      
 	     JButton btn_cancel = new JButton("취소");
 	     btn_cancel.setForeground(Color.WHITE);
@@ -177,9 +187,54 @@ public class SelectionInfo extends JFrame {
          btn_cancel.setBorderPainted(false);	
          btn_cancel.setBackground(new Color(53,69,98));
 	     SelInfo_panel.add(btn_cancel);
+	     
+	     btn_cancel.addActionListener(new ActionListener() {
+	          public void actionPerformed(ActionEvent e) {
+	             new StartPage();
+	             setVisible(false);  
+	          }
+	       });
 	      	
-}	   
-	
+	}	
+	/* 결제 버튼 클릭 이벤트 */
+	class Listener implements ActionListener{
+		JFrame frame;
+		public Listener(JFrame f) {
+			frame = f;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			try {
+				
+				System.out.println(select_time);
+				System.out.println(select_seat);
+				System.out.println(user.getId());
+				
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				String url = "jdbc:mysql://localhost:3306/STUDY_US";
+				String id = "root";
+				String pw = "111111";
+				Connection conn = DriverManager.getConnection(url, id, pw);
+				
+				
+				String sql = "update user set selected_time=?, selected_seat=? where id=?";
+				PreparedStatement pstmt = null;
+
+				pstmt = conn.prepareStatement(sql.toString());
+				pstmt.setString(1, select_time);
+				pstmt.setString(2, select_seat);
+				pstmt.setString(3, user.getId());
+				
+				int cnt = pstmt.executeUpdate();
+				
+				System.out.println(cnt);
+			
+			}catch(Exception ee) {
+				System.out.println("실패");
+			}
+		 }
+  }
 	/* 패널에 그림 올리기 클래스 (꽃 이미지) */
    class ImagePanel extends JPanel {
        private Image img;
@@ -199,4 +254,5 @@ public class SelectionInfo extends JFrame {
    public static void main(String[] args) {
       new SelectionInfo();
    }
+
 }

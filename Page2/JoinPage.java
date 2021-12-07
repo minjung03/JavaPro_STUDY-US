@@ -1,5 +1,6 @@
 package Page2;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -209,7 +210,6 @@ public class JoinPage extends JFrame {
 				JOptionPane.showMessageDialog(frame, "값을 전부 입력해주세요");
 			}
 			else { 
-			
 				try {
 						Class.forName("com.mysql.cj.jdbc.Driver");
 						String url = "jdbc:mysql://localhost:3306/STUDY_US";
@@ -228,8 +228,8 @@ public class JoinPage extends JFrame {
 								JOptionPane.showMessageDialog(frame, "이미 존재하는 아이디 입니다");
 							}
 						}
-						String sql2 =  "insert into user(name, id, pass, time_chk) values('"+join_name+"', '"
-								        +join_id+"', '"+join_pass+"', 'false');"; 
+						String sql2 =  "insert into user(name, id, pass, end_date) values('"+join_name+"', '"
+								        +join_id+"', '"+join_pass+"', 0);"; 
 						Statement stmt2 = conn.createStatement();
 						stmt.executeUpdate(sql2);
 								  

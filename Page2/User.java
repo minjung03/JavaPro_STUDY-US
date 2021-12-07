@@ -1,13 +1,28 @@
 package Page2;
 
-public class User {
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+
+public class User extends JFrame{
 	
-	private String name;
-	private String id;
-	private String pass;
-	private String time_chk;
-	private String selected_time;
-	private String selected_seat;
+	private String name = "";
+	private String id = "";
+	private String pass = "";
+	private String time_chk = "";
+	private String selected_time = "";
+	private String selected_seat = "";
+
+	
+	public User(String name, String id, String pass)
+		throws HeadlessException {
+		super();
+		this.name = name;
+		this.id = id;
+		this.pass = pass;
+	}
+	
+	public User() {}
 	
 	public String getName() {
 		return name;

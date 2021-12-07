@@ -1,32 +1,65 @@
 package Page2;
 
+import static Page2.LoginPage.user;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import Page2.JoinPage;
+import Page2.LoginPage;
+import Page2.StartPage;
+import Page2.LoginPage.BackActionListener;
+import Page2.LoginPage.Listener;
+import Page2.SelectTimeTablePage.ImagePanel;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Button;
+import javax.swing.JTable;
+
+
 public class AdminShowSeat extends JFrame {
 
-	private JPanel contentPane, panel, panel2, seattable_panel;
+	public static String select_seat, room, seatNum;
+	private JPanel contentPane, panel, panel2, seattable_panel, subtitle_panel, flower_img_panel;
 	private JTextField field_pass;
 	private JLabel textID, textPASS, title;
 	private JTable table;
+
+    Font font_20 = new Font("Cafe24SsurroundAir", Font.BOLD, 20);
+    Font font_12 = new Font("Cafe24SsurroundAir", Font.BOLD, 12);
+    Font font_14 = new Font("Cafe24SsurroundAir", Font.BOLD, 14);
+    Font font_16 = new Font("Cafe24SsurroundAir", Font.BOLD, 16);
+    
+    String setting_room, setting_seatNum;
+    String addText;
+   
+    String[] num = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"};
+	JButton[] btn_private = new JButton[6];
+	JButton[] btn_Metting = new JButton[2];
+	JButton[] btn_seat = new JButton[18];
 	
 	AdminShowSeat(){		
 		super("스터디카페 예약 프로그램 [STUDY US]");
@@ -35,540 +68,431 @@ public class AdminShowSeat extends JFrame {
 	
 	public final void init() {
 	
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-		setResizable(false); //사이즈 변경 불가능
-		setVisible(true); //보이게 할지 여부
-		setBounds(100, 100, 1300, 800);
 		
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-		
-		JPanel subtitle_panel = new JPanel();
-        subtitle_panel.setLayout(null);
-        subtitle_panel.setForeground(Color.white);
-        subtitle_panel.setBorder(new LineBorder(Color.black, 30, true));
-        subtitle_panel.setBounds(0, 0, 1273, 52);
-        panel.add(subtitle_panel);
-        
-        title = new JLabel("STUDY US");
-        title.setForeground(new Color(255, 255, 255));
-        title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
-        title.setBounds(22, 6, 440, 42);
-        subtitle_panel.add(title);
-        
-        //패널에 그림을 올려주는 클래스
-        class ImagePanel extends JPanel {
-          private Image img;
-          
-          public ImagePanel(Image img) {
-              this.img = img;
-              setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-              setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-              setLayout(null);
-          }
-          
-          public void paintComponent(Graphics g) {
-              g.drawImage(img, 3, 0, null);
-             }
-           } 
-        JPanel flower_img_panel = new JPanel();
-        flower_img_panel.setBounds(130, 12, 40, 30);
-        subtitle_panel.add(flower_img_panel);
-        flower_img_panel.setLayout(null);
-
-        ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
-        flower_img_panel.add(flowerimg);
-
-		
+		 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	     setResizable(false); // 사이즈 변경 불가능
+	     setVisible(true); // 보이게 할지 여부
+	     setBounds(100, 100, 1300, 800);
+	      
+	     contentPane = new JPanel();
+	     contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	     contentPane.setLayout(new BorderLayout(0, 0));
+	     setContentPane(contentPane);
+	        
+	     /* 요소를 전부 붙일 메인 panel */
+	     panel = new JPanel();
+	     panel.setBackground(Color.WHITE);
+	     contentPane.add(panel, BorderLayout.CENTER);
+	     panel.setLayout(null);
+	      
+	     /* 상단 바 panel */
+	     subtitle_panel = new JPanel();
+	     subtitle_panel.setLayout(null);
+	     subtitle_panel.setBackground(new Color(255,255,255));
+	     subtitle_panel.setForeground(new Color(211, 211, 211));
+	     subtitle_panel.setBorder(new LineBorder(new Color(215,176,212), 30, true));
+	     subtitle_panel.setBounds(0, 0, 1274, 52);
+	     panel.add(subtitle_panel);
+	      
+	     /* 상단 바 문구 */
+	     title = new JLabel("STUDY US");
+	     title.setForeground(new Color(255, 255, 255));
+	     title.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+	     title.setBounds(22, 6, 440, 42);
+	     subtitle_panel.add(title);
+	     
+	     /* 상단 바 꽃 이미지 */
+	     flower_img_panel = new JPanel();
+	     flower_img_panel.setBounds(130, 12, 40, 30);
+	     subtitle_panel.add(flower_img_panel);
+	     flower_img_panel.setLayout(null);
+	       
+	     ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
+	     flower_img_panel.add(flowerimg);
+	     
+	     /* 뒤로 가기 버튼 */
+		 ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
+		 JButton back = new JButton(backImg);
+		 back.setBackground(new Color(215,176,212));
+	     back.setBorderPainted(false); // 버튼 테두리 없애기
+		 back.setPreferredSize(new Dimension(30, 30)); 
+		 back.setBounds(1225, 16, 20, 20);
+		 back.addActionListener(new BackActionListener());
+		 subtitle_panel.add(back);
+		   
+	     
+	    /* '좌석 선택' 제목 & 배경 */
 		JPanel seattable_title_panel = new JPanel();
-		seattable_title_panel.setBounds(101, 96, 196, 39);
-		
-		panel.add(seattable_title_panel);
+		seattable_title_panel.setBounds(101, 80, 196, 39);
 		seattable_title_panel.setLayout(null);
-		seattable_title_panel.setBorder(new LineBorder(new Color(184,184,184), 30, true));
+		seattable_title_panel.setBackground(new Color(255,255,255));
+		seattable_title_panel.setBorder(new LineBorder(new Color(127,114,165), 30, true));
+		panel.add(seattable_title_panel);
 		
-		JLabel seattable_title_text = new JLabel("좌석선택");
+		JLabel seattable_title_text = new JLabel("좌석 선택");
 		seattable_title_text.setHorizontalAlignment(SwingConstants.CENTER);
 		seattable_title_text.setForeground(Color.WHITE);
-		seattable_title_text.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		seattable_title_text.setFont(font_20);
 		seattable_title_text.setBounds(31, 7, 139, 25);
 		seattable_title_panel.add(seattable_title_text);
 		
 		seattable_panel = new JPanel();
 		seattable_panel.setBackground(Color.WHITE);
-		seattable_panel.setBorder(new LineBorder(new Color(192, 192, 192), 3, true));
+		seattable_panel.setBorder(new LineBorder(new Color(127,114,165), 1, true));
 		seattable_panel.setBounds(72, 96, 1109, 590);
 		panel.add(seattable_panel);
 		seattable_panel.setLayout(null);
-	
-	      
-	
-	      
-	      JPanel panel_bar = new JPanel();
-	      panel_bar.setBackground(SystemColor.control);
-	      panel_bar.setBounds(553, 123, 2, 369);
-	      seattable_panel.add(panel_bar);
-	      
-	      
-	      JPanel panel1 = new JPanel();
-	      panel1.setBackground(Color.BLACK);
-	      panel1.setBounds(247, 54, 78, 2);
-	      seattable_panel.add(panel1);
-	      
-	      JLabel label_mainRoom = new JLabel("메인실");
-	      label_mainRoom.setHorizontalAlignment(SwingConstants.CENTER);
-	      label_mainRoom.setBounds(258, 62, 57, 15);
-	      seattable_panel.add(label_mainRoom);
-	      
-	  	  SeatSetting();
+		
 
-	      
-	      JPanel panel2 = new JPanel();
-	      panel2.setBackground(Color.BLACK);
-	      panel2.setBounds(836, 54, 78, 2);
-	      seattable_panel.add(panel2);
-	      
-	      JLabel label_meetingRoom = new JLabel("회의실");
-	      label_meetingRoom.setHorizontalAlignment(SwingConstants.CENTER);
-	      label_meetingRoom.setBounds(847, 62, 57, 15);
-	      seattable_panel.add(label_meetingRoom); 
-	      
-	      MeetingSetting();
-	      
-	      
-	      JPanel panel3 = new JPanel();
-	      panel3.setBackground(Color.BLACK);
-	      panel3.setBounds(884, 243, 78, 2);
-	      seattable_panel.add(panel3);
-	      
-	      JLabel label_privateRoom = new JLabel("개인실");
-	      label_privateRoom.setHorizontalAlignment(SwingConstants.CENTER);
-	      label_privateRoom.setBounds(895, 251, 57, 15);
-	      seattable_panel.add(label_privateRoom);
-	      
-	      PrivateSetting();
-	      
-	      
-	      JButton btn_Chk = new JButton("선택 완료");
-			btn_Chk.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					new SelectionInfo();
-					 setVisible(false);  // 창 안보이게 하기 
-				}
-			});
-			btn_Chk.setForeground(Color.WHITE);
-			btn_Chk.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
-			btn_Chk.setBackground(Color.BLACK);
-			btn_Chk.setBounds(941, 531, 97, 28);
-			seattable_panel.add(btn_Chk);      
 		
-	}
+	    /* 메인실 표시 & 세팅 */
+        JPanel mainromm_bar = new JPanel();
+        mainromm_bar.setBackground(Color.BLACK);
+        mainromm_bar.setBounds(247, 54, 78, 2);
+        seattable_panel.add(mainromm_bar);
+      
+        JLabel label_mainRoom = new JLabel("메인실");
+        label_mainRoom.setHorizontalAlignment(SwingConstants.CENTER);
+        label_mainRoom.setBounds(258, 62, 57, 15);
+        seattable_panel.add(label_mainRoom);
 	
-	public void PrivateSetting() {
-		
-		JLabel priroomNum_1 = new JLabel("1");
-		priroomNum_1.setHorizontalAlignment(SwingConstants.LEFT);
-		priroomNum_1.setForeground(Color.WHITE);
-		priroomNum_1.setFont(new Font("굴림", Font.BOLD, 15));
-		priroomNum_1.setBounds(966, 250, 19, 15);
-	    seattable_panel.add(priroomNum_1);
+	    SeatSetting();
 	    
-	      JButton btn_PR1_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_PR1_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR1_chk.setForeground(Color.WHITE);
-	      btn_PR1_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 11));
-	      btn_PR1_chk.setBounds(960, 242, 78, 84);
-	      seattable_panel.add(btn_PR1_chk);
-	           
+
+	    /* 회의실 표시 & 세팅 */
+	    JPanel mettingromm_bar = new JPanel();
+	    mettingromm_bar.setBackground(Color.BLACK);
+	    mettingromm_bar.setBounds(836, 54, 78, 2);
+	    seattable_panel.add(mettingromm_bar);
+	      
+	    JLabel label_meetingRoom = new JLabel("회의실");
+	    label_meetingRoom.setHorizontalAlignment(SwingConstants.CENTER);
+        label_meetingRoom.setBounds(847, 62, 57, 15);
+	    seattable_panel.add(label_meetingRoom); 
+	      
+	    MeetingSetting();
 	      
 	      
-	      JLabel priroomNum_2 = new JLabel("2");
-	      priroomNum_2.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_2.setForeground(Color.WHITE);
-	      priroomNum_2.setFont(new Font("굴림", Font.BOLD, 15));
-	      priroomNum_2.setBounds(966, 344, 19, 15);
-	      seattable_panel.add(priroomNum_2);
+	    /* 개인실 표시 & 세팅 */
+	    JPanel privateromm_bar = new JPanel();
+	    privateromm_bar.setBackground(Color.BLACK);
+	    privateromm_bar.setBounds(884, 243, 78, 2);
+	    seattable_panel.add(privateromm_bar);
 	      
-	      JButton btn_PR2_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_PR2_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR2_chk.setForeground(Color.WHITE);
-	      btn_PR2_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 11));
-	      btn_PR2_chk.setBounds(960, 336, 78, 84);
-	      seattable_panel.add(btn_PR2_chk);
+	    JLabel label_privateRoom = new JLabel("개인실");
+	    label_privateRoom.setHorizontalAlignment(SwingConstants.CENTER);
+	    label_privateRoom.setBounds(895, 251, 57, 15);
+	    seattable_panel.add(label_privateRoom);
 	      
+	    PrivateSetting();	  
+	    
+	    
+		 SeatChk_Setting();
+   
+	    /* 선택 완료 버튼 */
+        JButton btn_Chk = new JButton("선택 완료");
+		btn_Chk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				
+				try {
+					select_seat = room +" "+seatNum+addText;
+					
+					new SelectionInfo();
+					setVisible(false);  // 창 안보이게 하기 
+				
+				}catch(Exception ee) {
+					System.out.println("실패");
+				}
+				 
+			}
+		});
+		btn_Chk.setFont(font_12);
+		btn_Chk.setForeground(Color.WHITE);
+		btn_Chk.setBackground(Color.BLACK);
+		btn_Chk.setBounds(933, 531, 105, 33);
+		btn_Chk.setBackground(new Color(53,69,98)); 
+		btn_Chk.setBorderPainted(false);
+		seattable_panel.add(btn_Chk);      
+		
 	      
-	      
-	      JLabel priroomNum_3 = new JLabel("3");
-	      priroomNum_3.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_3.setForeground(Color.WHITE);
-	      priroomNum_3.setFont(new Font("굴림", Font.BOLD, 15));
-	      priroomNum_3.setBounds(966, 438, 19, 15);
-	      seattable_panel.add(priroomNum_3);
-	      
-	      JButton btn_PR3_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_PR3_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR3_chk.setForeground(Color.WHITE);
-	      btn_PR3_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 11));
-	      btn_PR3_chk.setBounds(960, 430, 78, 84);
-	      seattable_panel.add(btn_PR3_chk);
-	      
-	      
-	      JLabel priroomNum_4 = new JLabel("4");
-	      priroomNum_4.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_4.setForeground(Color.WHITE);
-	      priroomNum_4.setFont(new Font("굴림", Font.BOLD, 15));
-	      priroomNum_4.setBounds(876, 438, 19, 15);
-	      seattable_panel.add(priroomNum_4);
-	      
-	      JButton btn_PR4_chk = new JButton("사용가능");
-	      btn_PR4_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR4_chk.setForeground(Color.WHITE);
-	      btn_PR4_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 11));
-	      btn_PR4_chk.setBounds(870, 430, 78, 84);
-	      seattable_panel.add(btn_PR4_chk);
-	      
-	      
-	      JLabel priroomNum_5 = new JLabel("5");
-	      priroomNum_5.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_5.setForeground(Color.WHITE);
-	      priroomNum_5.setFont(new Font("굴림", Font.BOLD, 15));
-	      priroomNum_5.setBounds(783, 438, 19, 15);
-	      seattable_panel.add(priroomNum_5);
-	      
-	      JButton btn_PR5_chk = new JButton("사용가능");
-	      btn_PR5_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR5_chk.setForeground(Color.WHITE);
-	      btn_PR5_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 11));
-	      btn_PR5_chk.setBounds(777, 430, 78, 84);
-	      seattable_panel.add(btn_PR5_chk);
-	      
-	      
-	      JLabel priroomNum_6 = new JLabel("6");
-	      priroomNum_6.setHorizontalAlignment(SwingConstants.LEFT);
-	      priroomNum_6.setForeground(Color.WHITE);
-	      priroomNum_6.setFont(new Font("굴림", Font.BOLD, 15));
-	      priroomNum_6.setBounds(692, 439, 19, 15);
-	      seattable_panel.add(priroomNum_6);
-	      
-	      JButton btn_PR6_chk = new JButton("사용가능");
-	      btn_PR6_chk.setBackground(SystemColor.controlHighlight);
-	      btn_PR6_chk.setForeground(Color.WHITE);
-	      btn_PR6_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 11));
-	      btn_PR6_chk.setBounds(686, 431, 78, 84);
-	      seattable_panel.add(btn_PR6_chk);
-	     	        
+	}	
+	public void PrivateSetting() {
+
+		/*String num = "1";
+		int width_Default = 966;
+		int height_Default = 250;
+		
+		JLabel[] privateNum = new JLabel[6];
+		for(int i=0; i<6; i++) {
+			privateNum[i] = new JLabel(num);
+			privateNum[i].setHorizontalAlignment(SwingConstants.LEFT);
+			privateNum[i].setForeground(Color.WHITE);
+			privateNum[i].setFont(new Font("굴림", Font.BOLD, 15));
+		    seattable_panel.add(privateNum[i]);
+		    
+			if(i<3) {
+				privateNum[i].setBounds(width_Default, height_Default, 19, 15);
+				height_Default+=94;
+			}
+			else if(i==3) {
+				privateNum[i].setBounds(876, 438, 19, 15);
+			}
+			else if(i==4) {
+				privateNum[i].setBounds(783, 438, 19, 15);
+			}
+			else if(i==5) {
+				privateNum[i].setBounds(692, 439, 19, 15);
+			}
+			int num_set = Integer.valueOf(num);
+			num_set++;
+			num = String.valueOf(num_set);
+		}
+		*/
+		
+		int height_Default = 242;
+
+		for(int i=0; i<6; i++) {
+			btn_private[i] = new JButton(num[i]+" 사용가능");
+			btn_private[i].setBackground(new Color(145,223,144));
+			btn_private[i].setForeground(Color.WHITE);
+			btn_private[i].setBorderPainted(false);	
+			btn_private[i].setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 10));
+	
+			if(i<3) {
+				btn_private[i].setBounds(956, height_Default, 82, 84);
+				height_Default+=94;
+			}
+			else if(i==3) {
+				btn_private[i].setBounds(866, 430, 82, 84);
+			}
+			else if(i==4) {
+				btn_private[i].setBounds(773, 430, 82, 84);
+			}
+			else if(i==5) {
+				btn_private[i].setBounds(682, 431, 82, 84);
+			}
+	        seattable_panel.add(btn_private[i]);
+	        
+	        
+	        btn_private[i].addActionListener(new ActionListener() {
+		         public void actionPerformed(ActionEvent e) {
+		        	 
+		        	 JButton btn_num = (JButton)e.getSource();
+		        	 String nums = btn_num.getText().substring(0, 2);
+		        	 int seat_num = Integer.parseInt(nums.trim());
+		        	 
+		        	 for(int i=0; i<6; i++) {
+		        		 btn_private[i].setBackground(new Color(145,223,144));
+		        		 for(int j=0; j<2; j++) btn_Metting[j].setBackground(new Color(145,223,144));
+	        			 for(int k=0; k<18; k++) btn_seat[k].setBackground(new Color(145,223,144));
+	        			 
+		        		 if(i+1 == seat_num) {
+		        			 
+		        			 btn_private[i].setBackground(new Color(117,151,183));
+		        			 btn_private[i].setText(String.valueOf(seat_num) + " 사용가능");
+		        			 room = "개인실";
+		        			 seatNum = String.valueOf(seat_num);
+		        			 addText = "번방";
+		        		 }
+
+		        		 SeatChk_Setting();
+		        		 
+		        	 }
+		         }
+			});
+		}
+	
 	}
 	
 	public void MeetingSetting() {
+	
 		
-		JLabel meetingroomNum_1 = new JLabel("1");
-	      meetingroomNum_1.setHorizontalAlignment(SwingConstants.LEFT);
-	      meetingroomNum_1.setForeground(Color.WHITE);
-	      meetingroomNum_1.setFont(new Font("굴림", Font.BOLD, 15));
-	      meetingroomNum_1.setBounds(733, 100, 25, 24);
-	      seattable_panel.add(meetingroomNum_1);
+		  /*String num = "1";
+		  int width_Defalut = 733;
+		  
+	      JLabel[] MettingSeatNum = new JLabel[2];
+			for(int i=0; i<2; i++) {
+				MettingSeatNum[i] = new JLabel(num);
+				MettingSeatNum[i].setFont(new Font("굴림", Font.BOLD, 15));
+				MettingSeatNum[i].setForeground(Color.WHITE);
+				MettingSeatNum[i].setHorizontalAlignment(SwingConstants.LEFT);
+				MettingSeatNum[i].setBounds(width_Defalut, 100, 25, 24);
+				width_Defalut -= 164;
+			      
+				int num_set = Integer.valueOf(num);
+				num_set++;
+				num = String.valueOf(num_set);
+				
+		        seattable_panel.add(MettingSeatNum[i]);
+			}
 	      
-	      JLabel meetingroomNum_2 = new JLabel("2");
-	      meetingroomNum_2.setHorizontalAlignment(SwingConstants.LEFT);
-	      meetingroomNum_2.setForeground(Color.WHITE);
-	      meetingroomNum_2.setFont(new Font("굴림", Font.BOLD, 15));
-	      meetingroomNum_2.setBounds(897, 100, 25, 24);
-	      seattable_panel.add(meetingroomNum_2);
-	      
+	      */
+		
+	      int width_Defalut = 720;
+	      for(int i=0; i<2; i++) {
+	    	  btn_Metting[i] = new JButton(num[i]+" 사용가능");
+	    	  btn_Metting[i].setBackground(new Color(145,223,144));
+	    	  btn_Metting[i].setForeground(Color.WHITE);
+	    	  btn_Metting[i].setBounds(width_Defalut, 92, 154, 131);
+	    	  btn_Metting[i].setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
+	    	  btn_Metting[i].setBorderPainted(false);	
+		      seattable_panel.add(btn_Metting[i]);
+	    	  width_Defalut += 164;
+	    	  
+	    	  btn_Metting[i].addActionListener(new ActionListener() {
+			         public void actionPerformed(ActionEvent e) {
+			        	 
+			        	 JButton btn_num = (JButton)e.getSource();
+			        	 String nums = btn_num.getText().substring(0, 2);
+			        	 int seat_num = Integer.parseInt(nums.trim());
+			        	 
+			        	 for(int i=0; i<2; i++) {
+			        		 
+			        		 btn_Metting[i].setBackground(new Color(145,223,144));
+			        		 for(int j=0; j<6; j++) btn_private[j].setBackground(new Color(145,223,144));
+		        			 for(int k=0; k<18; k++) btn_seat[k].setBackground(new Color(145,223,144));
+		        			 
+			        		 if(i+1 == seat_num) {
+			        			 btn_Metting[i].setBackground(new Color(117,151,183));
+			        			 btn_Metting[i].setText(String.valueOf(seat_num) + " 사용가능");
+			        			 
+			        			 room = "회의실";
+			        			 seatNum = String.valueOf(seat_num);
+			        			 addText = "번방";
+			        		 }
 
-	      JButton btn_MR1_chk = new JButton("사용가능");
-	      btn_MR1_chk.setBackground(SystemColor.controlHighlight);
-	      btn_MR1_chk.setForeground(Color.WHITE);
-	      btn_MR1_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_MR1_chk.setBounds(720, 92, 154, 131);
-	      seattable_panel.add(btn_MR1_chk);
-	      
-	      JButton btn_MR2_chk = new JButton("사용가능");
-	      btn_MR2_chk.setBackground(SystemColor.controlHighlight);
-	      btn_MR2_chk.setForeground(Color.WHITE);
-	      btn_MR2_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_MR2_chk.setBounds(884, 92, 154, 131);
-	      seattable_panel.add(btn_MR2_chk);
-	      
-	      
+			        		 SeatChk_Setting();
+			        	 }
+			         }
+				});
+	      }
+	 
 	}
 	
 	public void SeatSetting() {
-		JLabel SeatNum_1 = new JLabel("1");
-	      SeatNum_1.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_1.setForeground(Color.WHITE);
-	      SeatNum_1.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_1.setBounds(101, 102, 13, 15);
-	      seattable_panel.add(SeatNum_1);
-	           
-	      JLabel SeatNum_2 = new JLabel("2");
-	      SeatNum_2.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_2.setForeground(Color.WHITE);
-	      SeatNum_2.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_2.setBounds(101, 174, 13, 15);
-	      seattable_panel.add(SeatNum_2);
-	      	      
-	      JLabel SeatNum_3 = new JLabel("3");
-	      SeatNum_3.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_3.setForeground(Color.WHITE);
-	      SeatNum_3.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_3.setBounds(101, 246, 13, 15);
-	      seattable_panel.add(SeatNum_3);
-	      
-	      JLabel SeatNum_4 = new JLabel("4");
-	      SeatNum_4.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_4.setForeground(Color.WHITE);
-	      SeatNum_4.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_4.setBounds(101, 318, 13, 15);
-	      seattable_panel.add(SeatNum_4);
-	      
-	      JLabel SeatNum_5 = new JLabel("5");
-	      SeatNum_5.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_5.setForeground(Color.WHITE);
-	      SeatNum_5.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_5.setBounds(101, 390, 13, 15);
-	      seattable_panel.add(SeatNum_5);
-	      
-	      JLabel SeatNum_6 = new JLabel("6");
-	      SeatNum_6.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_6.setForeground(Color.WHITE);
-	      SeatNum_6.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_6.setBounds(101, 462, 13, 15);
-	      seattable_panel.add(SeatNum_6);	      
-	      
-	      
-	      JButton btn_seat1_chk = new JButton("사용가능");
-	      btn_seat1_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat1_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat1_chk.setForeground(Color.WHITE);
-	      btn_seat1_chk.setBounds(91, 92, 127, 62);
-	      seattable_panel.add(btn_seat1_chk);
-	      
-	      JButton btn_seat2_chk = new JButton("사용가능");
-	      btn_seat2_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat2_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat2_chk.setForeground(Color.WHITE);
-	      btn_seat2_chk.setBounds(91, 164, 127, 62);
-	      seattable_panel.add(btn_seat2_chk);
-	      
-	      JButton btn_seat3_chk = new JButton("사용가능");
-	      btn_seat3_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat3_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat3_chk.setForeground(Color.WHITE);
-	      btn_seat3_chk.setBounds(91, 236, 127, 62);
-	      seattable_panel.add(btn_seat3_chk);
-	      
-	      JButton btn_seat4_chk = new JButton("사용가능");
-	      btn_seat4_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat4_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat4_chk.setForeground(Color.WHITE);
-	      btn_seat4_chk.setBounds(91, 308, 127, 62);
-	      seattable_panel.add(btn_seat4_chk);
-	      
-	      JButton btn_seat5_chk = new JButton("사용가능");
-	      btn_seat5_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat5_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat5_chk.setForeground(Color.WHITE);
-	      btn_seat5_chk.setBounds(91, 380, 127, 62);
-	      seattable_panel.add(btn_seat5_chk);
-	      
-	      JButton btn_seat6_chk = new JButton("사용가능");
-	      btn_seat6_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat6_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat6_chk.setForeground(Color.WHITE);
-	      btn_seat6_chk.setBounds(91, 452, 127, 62);
-	      seattable_panel.add(btn_seat6_chk);
-	      
-	      
-	      
-	      
-	      
-	      JLabel SeatNum_7 = new JLabel("7");
-	      SeatNum_7.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_7.setForeground(Color.WHITE);
-	      SeatNum_7.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_7.setBounds(240, 102, 13, 15);
-	      seattable_panel.add(SeatNum_7);
-	      
-	      JLabel SeatNum_8 = new JLabel("8");
-	      SeatNum_8.setHorizontalAlignment(SwingConstants.CENTER);
-	      SeatNum_8.setForeground(Color.WHITE);
-	      SeatNum_8.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_8.setBounds(240, 174, 13, 15);
-	      seattable_panel.add(SeatNum_8);
-	      
-	      JLabel SeatNum_9 = new JLabel("9");
-	      SeatNum_9.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_9.setForeground(Color.WHITE);
-	      SeatNum_9.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_9.setBounds(240, 246, 13, 15);
-	      seattable_panel.add(SeatNum_9);
-	      
-	      JLabel SeatNum_10 = new JLabel("10");
-	      SeatNum_10.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_10.setForeground(Color.WHITE);
-	      SeatNum_10.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_10.setBounds(239, 318, 25, 15);
-	      seattable_panel.add(SeatNum_10);
-	      
-	      JLabel SeatNum_11 = new JLabel("11");
-	      SeatNum_11.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_11.setForeground(Color.WHITE);
-	      SeatNum_11.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_11.setBounds(240, 390, 19, 15);
-	      seattable_panel.add(SeatNum_11);
-	      
-	      JLabel SeatNum_12 = new JLabel("12");
-	      SeatNum_12.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_12.setForeground(Color.WHITE);
-	      SeatNum_12.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_12.setBounds(240, 462, 19, 15);
-	      seattable_panel.add(SeatNum_12);
-	      
-	      
-	      JButton btn_seat7_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat7_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat7_chk.setForeground(Color.WHITE);
-	      btn_seat7_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat7_chk.setBounds(230, 92, 127, 62);
-	      seattable_panel.add(btn_seat7_chk);
-	      
-	      JButton btn_seat8_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat8_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat8_chk.setForeground(Color.WHITE);
-	      btn_seat8_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat8_chk.setBounds(230, 164, 127, 62);
-	      seattable_panel.add(btn_seat8_chk);
-	      
-	      JButton btn_seat9_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat9_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat9_chk.setForeground(Color.WHITE);
-	      btn_seat9_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat9_chk.setBounds(230, 236, 127, 62);
-	      seattable_panel.add(btn_seat9_chk);
-	      
-	      JButton btn_seat10_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat10_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat10_chk.setForeground(Color.WHITE);
-	      btn_seat10_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat10_chk.setBounds(230, 308, 127, 62);
-	      seattable_panel.add(btn_seat10_chk);
-	      
-	      JButton btn_seat11_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat11_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat11_chk.setForeground(Color.WHITE);
-	      btn_seat11_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat11_chk.setBounds(230, 380, 127, 62);
-	      seattable_panel.add(btn_seat11_chk);
-	      
-	      JButton btn_seat12_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat12_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat12_chk.setForeground(Color.WHITE);
-	      btn_seat12_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat12_chk.setBounds(230, 452, 127, 62);
-	      seattable_panel.add(btn_seat12_chk);
-	      
-	      
-	      
-	      
-	      JLabel SeatNum_13 = new JLabel("13");
-	      SeatNum_13.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_13.setForeground(Color.WHITE);
-	      SeatNum_13.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_13.setBounds(379, 102, 25, 15);
-	      seattable_panel.add(SeatNum_13);
-	      
-	      JLabel SeatNum_14 = new JLabel("14");
-	      SeatNum_14.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_14.setForeground(Color.WHITE);
-	      SeatNum_14.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_14.setBounds(379, 174, 25, 15);
-	      seattable_panel.add(SeatNum_14);
-	      
-	      JLabel SeatNum_15 = new JLabel("15");
-	      SeatNum_15.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_15.setForeground(Color.WHITE);
-	      SeatNum_15.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_15.setBounds(379, 246, 25, 15);
-	      seattable_panel.add(SeatNum_15);
-	      
-	      JLabel SeatNum_16 = new JLabel("16");
-	      SeatNum_16.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_16.setForeground(Color.WHITE);
-	      SeatNum_16.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_16.setBounds(378, 318, 25, 15);
-	      seattable_panel.add(SeatNum_16);
-	      
-	      JLabel SeatNum_17 = new JLabel("17");
-	      SeatNum_17.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_17.setForeground(Color.WHITE);
-	      SeatNum_17.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_17.setBounds(379, 390, 19, 15);
-	      seattable_panel.add(SeatNum_17);
-	      
-	      JLabel SeatNum_18 = new JLabel("18");
-	      SeatNum_18.setHorizontalAlignment(SwingConstants.LEFT);
-	      SeatNum_18.setForeground(Color.WHITE);
-	      SeatNum_18.setFont(new Font("굴림", Font.BOLD, 15));
-	      SeatNum_18.setBounds(379, 462, 19, 15);
-	      seattable_panel.add(SeatNum_18);
-	      
-	      JButton btn_seat13_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat13_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat13_chk.setForeground(Color.WHITE);
-	      btn_seat13_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat13_chk.setBounds(369, 92, 127, 62);
-	      seattable_panel.add(btn_seat13_chk);
-	      
-	      JButton btn_seat14_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat14_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat14_chk.setForeground(Color.WHITE);
-	      btn_seat14_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat14_chk.setBounds(369, 164, 127, 62);
-	      seattable_panel.add(btn_seat14_chk);
-	      
-	      JButton btn_seat15_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat15_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat15_chk.setForeground(Color.WHITE);
-	      btn_seat15_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat15_chk.setBounds(369, 236, 127, 62);
-	      seattable_panel.add(btn_seat15_chk);
-	      
-	      JButton btn_seat16_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat16_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat16_chk.setForeground(Color.WHITE);
-	      btn_seat16_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat16_chk.setBounds(369, 308, 127, 62);
-	      seattable_panel.add(btn_seat16_chk);
-	      
-	      JButton btn_seat17_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat17_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat17_chk.setForeground(Color.WHITE);
-	      btn_seat17_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat17_chk.setBounds(369, 380, 127, 62);
-	      seattable_panel.add(btn_seat17_chk);
-	      
-	      JButton btn_seat18_chk = new JButton("\uC0AC\uC6A9\uAC00\uB2A5");
-	      btn_seat18_chk.setBackground(SystemColor.controlHighlight);
-	      btn_seat18_chk.setForeground(Color.WHITE);
-	      btn_seat18_chk.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 12));
-	      btn_seat18_chk.setBounds(369, 452, 127, 62);
-	      seattable_panel.add(btn_seat18_chk);
-	      
+		
+		for(int i=0; i<18; i++) {
+			btn_seat[i] = new JButton(num[i] + " 사용가능");
+			btn_seat[i].setBackground(new Color(145,223,144));
+			btn_seat[i].setForeground(Color.WHITE);
+			btn_seat[i].setBorderPainted(false);	
+						
+			btn_seat[i].addActionListener(new ActionListener() {
+		         public void actionPerformed(ActionEvent e) {
+		        	 
+		        	 JButton btn_num = (JButton)e.getSource();
+		        	 String nums = btn_num.getText().substring(0, 2);
+		        	 int seat_num = Integer.parseInt(nums.trim());
+		        	
+		        	 for(int i=0; i<18; i++) {
+		        			
+		        		 btn_seat[i].setBackground(new Color(145,223,144));
+		        		 for(int j=0; j<2; j++) btn_Metting[j].setBackground(new Color(145,223,144));
+	        			 for(int k=0; k<6; k++) btn_private[k].setBackground(new Color(145,223,144));
+	        			 
+		        		 if(i+1 == seat_num) {
+		        			 btn_seat[i].setBackground(new Color(117,151,183));
+		 	 				 btn_seat[i].setText(String.valueOf(seat_num) + " 사용가능");
+		 	 				 
+		 	 				 room = "메인실";
+		        			 seatNum = String.valueOf(seat_num);
+		        			 addText = "번 좌석";
+		        		 }
+
+		        		 SeatChk_Setting();
+		        	 }
+		         }
+			});
+		}
+	 			 	 
+		int height_Default = 92;
+		for(int i=0; i<6; i++) {			
+			btn_seat[i].setBounds(91, height_Default, 127, 62);
+			height_Default+=72;
+		}
+		
+		height_Default = 92;
+		for(int i=6; i<12; i++) {
+		    btn_seat[i].setBounds(230, height_Default, 127, 62);		
+			height_Default+=72;
+		}
+		
+		height_Default = 92;
+		for(int i=12; i<18; i++) {
+		    btn_seat[i].setBounds(369, height_Default, 127, 62);
+			height_Default+=72;
+		}
+		
+		for(int i=0; i<18; i++) {	
+			seattable_panel.add(btn_seat[i]);
+		}
+	
 	}
-	   
-	   public static void main(String[] args) {
-	      new AdminShowSeat();
-	   }
+   public static void main(String[] args) {
+      new SelectSeatPage();
+   }
+   
+   
+   public void SeatChk_Setting() {
+	   try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/STUDY_US";
+			String id = "root";
+			String pw = "111111";
+			Connection conn = DriverManager.getConnection(url, id, pw);
+
+			String sql = "SELECT room, seat_num FROM seat";
+
+			Statement stmt = conn.createStatement(); 
+			ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
+			
+			while(rs.next()) {
+				setting_room = rs.getString("room");
+				setting_seatNum = rs.getString("seat_num");
+				
+				switch(setting_room) {
+				case "메인실" : {
+					btn_seat[Integer.parseInt(setting_seatNum)-1].setBackground(new Color(218,76,76));
+					btn_seat[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" 사용중");
+					break;
+				}
+				case "개인실" : {
+					btn_private[Integer.parseInt(setting_seatNum)-1].setBackground(new Color(218,76,76));
+					btn_private[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" 사용중");
+					break;
+				}
+				case "회의실" : 
+					btn_Metting[Integer.parseInt(setting_seatNum)-1].setBackground(new Color(218,76,76));
+					btn_Metting[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" 사용중");
+					break;
+				}
+			}
+		}catch(Exception ee) {
+			System.out.println("실패");
+		}
+   }
+   class BackActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new StartPage(); // StartPage 실행
+           setVisible(false);  // 창 안보이게 하기 
+		}
+	}
+	
+   /* 패널에 그림 올리기 클래스 (꽃 이미지) */
+   class ImagePanel extends JPanel {
+       private Image img;
+       
+       public ImagePanel(Image img) {
+           this.img = img;
+           setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+           setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+           setLayout(null);
+       }
+       public void paintComponent(Graphics g) {
+           g.drawImage(img, 3, 0, null);
+       }
+   } 
+   
+   
 }
