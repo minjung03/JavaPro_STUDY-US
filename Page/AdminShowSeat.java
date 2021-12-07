@@ -53,7 +53,7 @@ public class AdminShowSeat extends JFrame {
     Font font_14 = new Font("Cafe24SsurroundAir", Font.BOLD, 14);
     Font font_16 = new Font("Cafe24SsurroundAir", Font.BOLD, 16);
     
-    String setting_room, setting_seatNum;
+    String setting_room, setting_seatNum, setting_id;
     String addText;
    
     String[] num = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"};
@@ -90,7 +90,7 @@ public class AdminShowSeat extends JFrame {
 	     subtitle_panel.setLayout(null);
 	     subtitle_panel.setBackground(new Color(255,255,255));
 	     subtitle_panel.setForeground(new Color(211, 211, 211));
-	     subtitle_panel.setBorder(new LineBorder(new Color(215,176,212), 30, true));
+	     subtitle_panel.setBorder(new LineBorder(new Color(0,0,0), 30, true));
 	     subtitle_panel.setBounds(0, 0, 1274, 52);
 	     panel.add(subtitle_panel);
 	      
@@ -110,15 +110,17 @@ public class AdminShowSeat extends JFrame {
 	     ImagePanel flowerimg = new ImagePanel(new ImageIcon("./img/resizeflower.png").getImage());
 	     flower_img_panel.add(flowerimg);
 	     
+	     
 	     /* 뒤로 가기 버튼 */
-		 ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
-		 JButton back = new JButton(backImg);
-		 back.setBackground(new Color(215,176,212));
-	     back.setBorderPainted(false); // 버튼 테두리 없애기
-		 back.setPreferredSize(new Dimension(30, 30)); 
-		 back.setBounds(1225, 16, 20, 20);
-		 back.addActionListener(new BackActionListener());
-		 subtitle_panel.add(back);
+		   ImageIcon backImg = new ImageIcon("./img/back_main_icon.png");
+		   JButton back = new JButton(backImg);
+		   back.setBackground(new Color(0,0,0));
+		   back.setBorderPainted(false); // 버튼 테두리 없애기
+		   back.setPreferredSize(new Dimension(30, 30)); 
+		   back.setBounds(1225, 16, 20, 20);
+		   back.addActionListener(new BackActionListener());
+		   subtitle_panel.add(back);
+	      
 		   
 	     
 	    /* '좌석 선택' 제목 & 배경 */
@@ -189,65 +191,12 @@ public class AdminShowSeat extends JFrame {
 	    
 		 SeatChk_Setting();
    
-	    /* 선택 완료 버튼 */
-        JButton btn_Chk = new JButton("선택 완료");
-		btn_Chk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
-				
-				try {
-					select_seat = room +" "+seatNum+addText;
-					
-					new SelectionInfo();
-					setVisible(false);  // 창 안보이게 하기 
-				
-				}catch(Exception ee) {
-					System.out.println("실패");
-				}
-				 
-			}
-		});
-		btn_Chk.setFont(font_12);
-		btn_Chk.setForeground(Color.WHITE);
-		btn_Chk.setBackground(Color.BLACK);
-		btn_Chk.setBounds(933, 531, 105, 33);
-		btn_Chk.setBackground(new Color(53,69,98)); 
-		btn_Chk.setBorderPainted(false);
-		seattable_panel.add(btn_Chk);      
+	  
 		
 	      
 	}	
 	public void PrivateSetting() {
 
-		/*String num = "1";
-		int width_Default = 966;
-		int height_Default = 250;
-		
-		JLabel[] privateNum = new JLabel[6];
-		for(int i=0; i<6; i++) {
-			privateNum[i] = new JLabel(num);
-			privateNum[i].setHorizontalAlignment(SwingConstants.LEFT);
-			privateNum[i].setForeground(Color.WHITE);
-			privateNum[i].setFont(new Font("굴림", Font.BOLD, 15));
-		    seattable_panel.add(privateNum[i]);
-		    
-			if(i<3) {
-				privateNum[i].setBounds(width_Default, height_Default, 19, 15);
-				height_Default+=94;
-			}
-			else if(i==3) {
-				privateNum[i].setBounds(876, 438, 19, 15);
-			}
-			else if(i==4) {
-				privateNum[i].setBounds(783, 438, 19, 15);
-			}
-			else if(i==5) {
-				privateNum[i].setBounds(692, 439, 19, 15);
-			}
-			int num_set = Integer.valueOf(num);
-			num_set++;
-			num = String.valueOf(num_set);
-		}
-		*/
 		
 		int height_Default = 242;
 
@@ -274,60 +223,15 @@ public class AdminShowSeat extends JFrame {
 	        seattable_panel.add(btn_private[i]);
 	        
 	        
-	        btn_private[i].addActionListener(new ActionListener() {
-		         public void actionPerformed(ActionEvent e) {
-		        	 
-		        	 JButton btn_num = (JButton)e.getSource();
-		        	 String nums = btn_num.getText().substring(0, 2);
-		        	 int seat_num = Integer.parseInt(nums.trim());
-		        	 
-		        	 for(int i=0; i<6; i++) {
-		        		 btn_private[i].setBackground(new Color(145,223,144));
-		        		 for(int j=0; j<2; j++) btn_Metting[j].setBackground(new Color(145,223,144));
-	        			 for(int k=0; k<18; k++) btn_seat[k].setBackground(new Color(145,223,144));
-	        			 
-		        		 if(i+1 == seat_num) {
-		        			 
-		        			 btn_private[i].setBackground(new Color(117,151,183));
-		        			 btn_private[i].setText(String.valueOf(seat_num) + " 사용가능");
-		        			 room = "개인실";
-		        			 seatNum = String.valueOf(seat_num);
-		        			 addText = "번방";
-		        		 }
-
-		        		 SeatChk_Setting();
-		        		 
-		        	 }
-		         }
-			});
+	        
 		}
 	
 	}
-	
+   public static void main(String[] args) {
+      new SelectSeatPage();
+   }
 	public void MeetingSetting() {
 	
-		
-		  /*String num = "1";
-		  int width_Defalut = 733;
-		  
-	      JLabel[] MettingSeatNum = new JLabel[2];
-			for(int i=0; i<2; i++) {
-				MettingSeatNum[i] = new JLabel(num);
-				MettingSeatNum[i].setFont(new Font("굴림", Font.BOLD, 15));
-				MettingSeatNum[i].setForeground(Color.WHITE);
-				MettingSeatNum[i].setHorizontalAlignment(SwingConstants.LEFT);
-				MettingSeatNum[i].setBounds(width_Defalut, 100, 25, 24);
-				width_Defalut -= 164;
-			      
-				int num_set = Integer.valueOf(num);
-				num_set++;
-				num = String.valueOf(num_set);
-				
-		        seattable_panel.add(MettingSeatNum[i]);
-			}
-	      
-	      */
-		
 	      int width_Defalut = 720;
 	      for(int i=0; i<2; i++) {
 	    	  btn_Metting[i] = new JButton(num[i]+" 사용가능");
@@ -339,32 +243,7 @@ public class AdminShowSeat extends JFrame {
 		      seattable_panel.add(btn_Metting[i]);
 	    	  width_Defalut += 164;
 	    	  
-	    	  btn_Metting[i].addActionListener(new ActionListener() {
-			         public void actionPerformed(ActionEvent e) {
-			        	 
-			        	 JButton btn_num = (JButton)e.getSource();
-			        	 String nums = btn_num.getText().substring(0, 2);
-			        	 int seat_num = Integer.parseInt(nums.trim());
-			        	 
-			        	 for(int i=0; i<2; i++) {
-			        		 
-			        		 btn_Metting[i].setBackground(new Color(145,223,144));
-			        		 for(int j=0; j<6; j++) btn_private[j].setBackground(new Color(145,223,144));
-		        			 for(int k=0; k<18; k++) btn_seat[k].setBackground(new Color(145,223,144));
-		        			 
-			        		 if(i+1 == seat_num) {
-			        			 btn_Metting[i].setBackground(new Color(117,151,183));
-			        			 btn_Metting[i].setText(String.valueOf(seat_num) + " 사용가능");
-			        			 
-			        			 room = "회의실";
-			        			 seatNum = String.valueOf(seat_num);
-			        			 addText = "번방";
-			        		 }
-
-			        		 SeatChk_Setting();
-			        	 }
-			         }
-				});
+	    	  
 	      }
 	 
 	}
@@ -377,32 +256,7 @@ public class AdminShowSeat extends JFrame {
 			btn_seat[i].setForeground(Color.WHITE);
 			btn_seat[i].setBorderPainted(false);	
 						
-			btn_seat[i].addActionListener(new ActionListener() {
-		         public void actionPerformed(ActionEvent e) {
-		        	 
-		        	 JButton btn_num = (JButton)e.getSource();
-		        	 String nums = btn_num.getText().substring(0, 2);
-		        	 int seat_num = Integer.parseInt(nums.trim());
-		        	
-		        	 for(int i=0; i<18; i++) {
-		        			
-		        		 btn_seat[i].setBackground(new Color(145,223,144));
-		        		 for(int j=0; j<2; j++) btn_Metting[j].setBackground(new Color(145,223,144));
-	        			 for(int k=0; k<6; k++) btn_private[k].setBackground(new Color(145,223,144));
-	        			 
-		        		 if(i+1 == seat_num) {
-		        			 btn_seat[i].setBackground(new Color(117,151,183));
-		 	 				 btn_seat[i].setText(String.valueOf(seat_num) + " 사용가능");
-		 	 				 
-		 	 				 room = "메인실";
-		        			 seatNum = String.valueOf(seat_num);
-		        			 addText = "번 좌석";
-		        		 }
-
-		        		 SeatChk_Setting();
-		        	 }
-		         }
-			});
+	
 		}
 	 			 	 
 		int height_Default = 92;
@@ -426,11 +280,16 @@ public class AdminShowSeat extends JFrame {
 		for(int i=0; i<18; i++) {	
 			seattable_panel.add(btn_seat[i]);
 		}
-	
 	}
-   public static void main(String[] args) {
-      new SelectSeatPage();
-   }
+   
+   class BackActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new AdminUserListPage(); // StartPage 실행
+           setVisible(false);  // 창 안보이게 하기 
+		}
+		
+	}
    
    
    public void SeatChk_Setting() {
@@ -441,43 +300,41 @@ public class AdminShowSeat extends JFrame {
 			String pw = "111111";
 			Connection conn = DriverManager.getConnection(url, id, pw);
 
-			String sql = "SELECT room, seat_num FROM seat";
+			String sql = "SELECT id, room, seat_num FROM seat";
 
 			Statement stmt = conn.createStatement(); 
 			ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
 			
 			while(rs.next()) {
+				setting_id = rs.getString("id");
 				setting_room = rs.getString("room");
 				setting_seatNum = rs.getString("seat_num");
 				
 				switch(setting_room) {
 				case "메인실" : {
 					btn_seat[Integer.parseInt(setting_seatNum)-1].setBackground(new Color(218,76,76));
-					btn_seat[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" 사용중");
+					// btn_seat[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" "+setting_id+" ");
+					btn_seat[Integer.parseInt(setting_seatNum)-1].setText("<html><body style='text-align:center;'>"+setting_seatNum+"<br/>"+setting_id+"님 사용중</body></html>");
+				
 					break;
 				}
 				case "개인실" : {
+					System.out.println("3");
 					btn_private[Integer.parseInt(setting_seatNum)-1].setBackground(new Color(218,76,76));
-					btn_private[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" 사용중");
+					btn_private[Integer.parseInt(setting_seatNum)-1].setText("<html><body style='text-align:center;'>"+setting_seatNum+"<br/>"+setting_id+"님<br/> 사용중</body></html>");
 					break;
 				}
 				case "회의실" : 
 					btn_Metting[Integer.parseInt(setting_seatNum)-1].setBackground(new Color(218,76,76));
-					btn_Metting[Integer.parseInt(setting_seatNum)-1].setText(setting_seatNum+" 사용중");
+					btn_Metting[Integer.parseInt(setting_seatNum)-1].setText("<html><body style='text-align:center;'>"+setting_seatNum+"<br/>"+setting_id+"님 사용중</body></html>");
 					break;
 				}
 			}
-		}catch(Exception ee) {
+			
+	   }catch(Exception ee) {
 			System.out.println("실패");
 		}
    }
-   class BackActionListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new StartPage(); // StartPage 실행
-           setVisible(false);  // 창 안보이게 하기 
-		}
-	}
 	
    /* 패널에 그림 올리기 클래스 (꽃 이미지) */
    class ImagePanel extends JPanel {

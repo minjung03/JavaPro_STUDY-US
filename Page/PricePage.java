@@ -170,7 +170,7 @@ public class PricePage extends JFrame {
        
        for(int i=0; i<8; i++) {
     	   coupon1_hours_Panel[i] = new JPanel();
-    	   coupon1_hours_Panel[i].setBackground(new Color(233,244,236));
+    	   coupon1_hours_Panel[i].setBackground(new Color(245,243,247));
     	   coupon1_hours_Panel[i].setLayout(null);
     	   coupon1_hours_Panel[i].setBounds(coupon1_hours_Panel_width, coupon1_hours_Panel_height, 90, 30);
     	   coupon1_hours_Panel_width += 91; 
@@ -207,7 +207,7 @@ public class PricePage extends JFrame {
        
        for(int i=0; i<8; i++) {
     	   coupon2_hours_Panel[i] = new JPanel();
-    	   coupon2_hours_Panel[i].setBackground(new Color(233,244,236));
+    	   coupon2_hours_Panel[i].setBackground(new Color(245,243,247));
     	   coupon2_hours_Panel[i].setLayout(null);
     	   coupon2_hours_Panel[i].setBounds(coupon2_hours_Panel_width, coupon2_hours_Panel_height, 90, 30);
     	   coupon2_hours_Panel_width += 91; 
@@ -244,7 +244,7 @@ public class PricePage extends JFrame {
        
        for(int i=0; i<6; i++) {
     	   coupon3_hours_Panel[i] = new JPanel();
-    	   coupon3_hours_Panel[i].setBackground(new Color(233,244,236));
+    	   coupon3_hours_Panel[i].setBackground(new Color(245,243,247));
     	   coupon3_hours_Panel[i].setLayout(null);
     	   coupon3_hours_Panel[i].setBounds(coupon3_hours_Panel_width, coupon3_hours_Panel_height, 90, 30);
     	   coupon3_hours_Panel_width += 91; 
@@ -277,7 +277,7 @@ public class PricePage extends JFrame {
        
        for(int i=0; i<4; i++) {
     	   coupon4_hours_Panel[i] = new JPanel();
-    	   coupon4_hours_Panel[i].setBackground(new Color(233,244,236));
+    	   coupon4_hours_Panel[i].setBackground(new Color(245,243,247));
     	   coupon4_hours_Panel[i].setLayout(null);
     	   coupon4_hours_Panel[i].setBounds(coupon4_hours_Panel_width, coupon4_hours_Panel_height, 150, 30);
     	   coupon4_hours_Panel_width += 151; 

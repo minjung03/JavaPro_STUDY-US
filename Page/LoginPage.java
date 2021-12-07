@@ -37,7 +37,7 @@ import Page.JoinPage.Listener;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
-public class LoginPage extends User {
+public class LoginPage extends JFrame {
    
    public static User user;
    private JPanel contentPane, panel, subtitle_panel, flower_img_panel, textID_panel, textPASS_panel;
@@ -51,7 +51,7 @@ public class LoginPage extends User {
    Font font_30 = new Font("Cafe24SsurroundAir", Font.PLAIN, 30);
    
    LoginPage(){
-      super("스터디카페 예약 프로그램 [STUDY US]", "","");
+      super("스터디카페 예약 프로그램 [STUDY US]");
       init();
    }
   
@@ -175,7 +175,7 @@ public class LoginPage extends User {
 			ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
 			
 			while(rs.next()) {
-				user_date = rs.getString("end_date");
+				user_date = rs.getString("start_date");
 				break;
 			}
 	       
@@ -204,23 +204,20 @@ public class LoginPage extends User {
 			}
 			System.out.println(user_select_sec);
 			
-	       /* 선택한 시간이 전부 끝났다면 */
+
 			if(user_select_sec > time_term) {
-				System.out.println("시간 아직 중");
 				return false;
 				 
 			}
-			else {
-				System.out.println("시간을 전부 이용하셨습니다");	
-				
-				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?, end_date=? where id=?";
+			else {    // 선택한 시간을 전부 사용했다면
+				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?, start_date=? where id=?";
 				 PreparedStatement pstmts = null;
 				 
 				 pstmts = conn.prepareStatement(sql3.toString());
-				 pstmts.setString(1, "");
+				 pstmts.setString(1, "NULL");
 			 	 pstmts.setInt(2, 0);
-			 	 pstmts.setString(3, "");
-			 	 pstmts.setString(4, "");
+			 	 pstmts.setString(3, "NULL");
+			 	 pstmts.setString(4, "NULL");
 			 	 pstmts.setString(5, user.getId());
 				 
 				 System.out.println("시간을 전부 이용하셨습니다");

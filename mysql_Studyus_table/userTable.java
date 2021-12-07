@@ -23,7 +23,7 @@ public class userTable {
 	         sql+="selected_time varchar(20),";
 	         sql+="sec int,";
 	         sql+="selected_seat varchar(20),";
-	         sql+="end_date varchar(20));";
+	         sql+="start_date varchar(20));";
 			
 			Statement stmt = conn.createStatement(); 
 			

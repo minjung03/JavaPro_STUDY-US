@@ -1,7 +1,8 @@
 package Page;
 
 import static Page.LoginPage.user;
-
+import static Page.SelectSeatPage.room;
+import static Page.SelectSeatPage.seatNum;
 import static Page.SelectSeatPage.select_seat;
 //import static Page2.SelectTimeTablePage.select_time;
 import static Page.SelectTimeTablePage.select_time;
@@ -170,6 +171,7 @@ public class MyPage extends JFrame {
       
       btn_chkout.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
+        	  
              new StartPage(); // JoinPage 실행
              setVisible(false); // 창 안보이게 하기
           }   
@@ -207,13 +209,13 @@ public class MyPage extends JFrame {
 			String pw = "111111";
 			Connection conn = DriverManager.getConnection(url, id, pw);
 
-			String sql = "SELECT sec, end_date FROM user where id='"+user.getId()+"'";
+			String sql = "SELECT sec, start_date FROM user where id='"+user.getId()+"'";
 
 			Statement stmt = conn.createStatement(); 
 			ResultSet rs = stmt.executeQuery(sql); //결과를 담을 ResultSet 생성 후 결과 담기
 			
 			while(rs.next()) {
-				user_date = rs.getString("end_date");
+				user_date = rs.getString("start_date");
 				user_sec = rs.getInt("sec");
 				break;
 			}

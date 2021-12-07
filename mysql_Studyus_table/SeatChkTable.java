@@ -12,7 +12,6 @@ public class SeatChkTable {
          String url = "jdbc:mysql://localhost:3306/STUDY_US";
          String id = "root";
          String pw = "111111";
-      
    
          Connection conn = DriverManager.getConnection(url, id, pw);
          System.out.println("DB 연결성공");

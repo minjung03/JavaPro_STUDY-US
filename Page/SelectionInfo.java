@@ -156,7 +156,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
        JPanel SelTime_panel = new JPanel();
        SelTime_panel.setBorder(new LineBorder(new Color(255,223,132), 30, true));
        SelTime_panel.setBackground(Color.WHITE);
-        SelTime_panel.setBounds(321, 233, 153, 33);
+        SelTime_panel.setBounds(350, 203, 153, 33);// ¼¼·Î - 30 °¡·Î +10
         SelInfo_panel.add(SelTime_panel);
         SelTime_panel.setLayout(null);
          
@@ -171,7 +171,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
         SetSeltime_label.setHorizontalAlignment(SwingConstants.LEFT);
         SetSeltime_label.setFont(new Font("³ª´®°íµñ ExtraBold", Font.PLAIN, 20));
         SetSeltime_label.setBackground(Color.YELLOW);
-        SetSeltime_label.setBounds(513, 233, 274, 33);
+        SetSeltime_label.setBounds(534, 203, 274, 33);
         SelInfo_panel.add(SetSeltime_label);
         
         
@@ -180,7 +180,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
         JPanel SelSeat_panel = new JPanel();
         SelSeat_panel.setBorder(new LineBorder(new Color(240, 128, 128), 30, true));
         SelSeat_panel.setBackground(Color.WHITE);
-        SelSeat_panel.setBounds(321, 300, 153, 33);
+        SelSeat_panel.setBounds(350, 270, 153, 33);
         SelInfo_panel.add(SelSeat_panel);
         SelSeat_panel.setLayout(null);
          
@@ -196,7 +196,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
         SelSeat_label.setHorizontalAlignment(SwingConstants.LEFT);
         SelSeat_label.setFont(new Font("³ª´®°íµñ ExtraBold", Font.PLAIN, 20));
         SelSeat_label.setBackground(Color.YELLOW);
-        SelSeat_label.setBounds(513, 300, 274, 33);
+        SelSeat_label.setBounds(534, 270, 274, 33);
         SelInfo_panel.add(SelSeat_label);
 
 
@@ -260,7 +260,7 @@ public class SelectionInfo extends JFrame  implements Runnable{
 			    Date today = new Date();
 				System.out.println(date.format(today));
 				   
-				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?, end_date=? where id=?";
+				String sql3 = "update user set selected_time=?, sec=?, selected_seat=?, start_date=? where id=?";
 				PreparedStatement pstmt = null;
 				
 				pstmt = conn.prepareStatement(sql3.toString());
