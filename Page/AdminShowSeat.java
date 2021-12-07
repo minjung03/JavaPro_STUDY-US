@@ -131,7 +131,7 @@ public class AdminShowSeat extends JFrame {
 		seattable_title_panel.setBorder(new LineBorder(new Color(127,114,165), 30, true));
 		panel.add(seattable_title_panel);
 		
-		JLabel seattable_title_text = new JLabel("ÁÂ¼® ¼±ÅÃ");
+		JLabel seattable_title_text = new JLabel("ÁÂ¼® ÇöÈ²");
 		seattable_title_text.setHorizontalAlignment(SwingConstants.CENTER);
 		seattable_title_text.setForeground(Color.WHITE);
 		seattable_title_text.setFont(font_20);
