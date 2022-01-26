@@ -25,5 +25,5 @@
 ### CONTACT
 
 * DEVELOPER
-  * Minjung Kim - [s2003@e-mirim.hs.kr], [https://github.com/minjung03]
+  * MinJeong Kim - [s2003@e-mirim.hs.kr], [https://github.com/minjung03]
   * MinJeong Seo - [s2029@e-mirim.hs.kr], [https://github.com/Smj04]
